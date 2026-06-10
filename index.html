@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宁波少儿编程教育指南 · 小码王</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg-primary: #0f1117;
+  --bg-secondary: #161822;
+  --bg-card: #1e2030;
+  --bg-hover: #252840;
+  --bg-nav: rgba(15,17,23,0.95);
+  --text-primary: #e4e6f0;
+  --text-secondary: #8b8fa3;
+  --text-muted: #5b5f72;
+  --border-color: #2a2d3e;
+  --border-light: rgba(255,255,255,0.06);
+  --shadow: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --color-policy: #6c63ff;
+  --color-competition: #00d4aa;
+  --color-admission: #f0a500;
+  --color-district: #ff6b6b;
+  --font-size-sm: 0.8125rem;
+  --font-size-base: 0.9375rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --line-height: 1.7;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--color-policy); text-decoration: none; transition: color 0.2s; }
+a:hover { color: #8b83ff; }
+
+/* === Top Nav Bar === */
+.nav-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg-nav); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 24px;
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 20px;
+  height: 56px;
+}
+.nav-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 15px; font-weight: 700; color: #fff;
+  text-decoration: none; white-space: nowrap;
+}
+.nav-title span:first-child { font-size: 20px; }
+.nav-links {
+  display: flex; align-items: center; gap: 4px; margin-left: 16px;
+}
+.nav-link {
+  padding: 6px 14px; font-size: 13px; color: var(--text-secondary);
+  border-radius: var(--radius-sm); transition: all 0.15s;
+  text-decoration: none; white-space: nowrap;
+}
+.nav-link:hover { color: #fff; background: rgba(255,255,255,0.06); }
+
+/* Policy link */
+.nav-link.nav-policy:hover { color: var(--color-policy); }
+/* Competition link */
+.nav-link.nav-competition:hover { color: var(--color-competition); }
+/* Admission link */
+.nav-link.nav-admission:hover { color: var(--color-admission); }
+/* District link */
+.nav-link.nav-district:hover { color: var(--color-district); }
+
+.nav-search {
+  margin-left: auto; position: relative; width: 260px;
+}
+.nav-search input {
+  width: 100%; padding: 7px 14px 7px 34px;
+  border: 1px solid var(--border-color); border-radius: 20px;
+  font-size: 13px; background: var(--bg-card); color: var(--text-primary);
+  outline: none; transition: border 0.2s;
+}
+.nav-search input::placeholder { color: var(--text-muted); }
+.nav-search input:focus { border-color: var(--color-policy); }
+.nav-search::before { content: "\1F50D"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; }
+.nav-search .search-count {
+  position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+  font-size: 11px; color: var(--color-policy); font-weight: 600;
+  pointer-events: none; white-space: nowrap; opacity: 0; transition: opacity 0.2s;
+}
+.nav-search .search-count.visible { opacity: 1; }
+.nav-search .search-clear {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--text-muted); cursor: pointer;
+  font-size: 14px; padding: 2px 4px; display: none; line-height: 1;
+}
+.nav-search .search-clear.visible { display: block; }
+.nav-search .search-clear:hover { color: #ff6b6b; }
+
+/* Search highlight styles */
+.search-match-highlight {
+  background: rgba(240,165,0,0.35); border-radius: 2px; padding: 0 1px;
+}
+.card.search-match, .policy-card.search-match, .category-card.search-match {
+  border-color: var(--color-policy) !important;
+  box-shadow: 0 0 0 1px rgba(108,99,255,0.3), 0 4px 16px rgba(108,99,255,0.15) !important;
+}
+.card.search-dimmed, .policy-card.search-dimmed, .category-card.search-dimmed {
+  opacity: 0.35;
+  pointer-events: none;
+}
+tr.search-match-row { background: rgba(108,99,255,0.12) !important; }
+tr.search-dimmed-row { opacity: 0.3; }
+
+/* Search no results toast */
+.search-no-results {
+  text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 14px;
+}
+.search-no-results strong { color: var(--color-policy); }
+
+/* Mobile nav toggle */
+.nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; padding: 4px; }
+
+/* === Main Container === */
+.main-content { max-width: 1200px; margin: 0 auto; padding: 0 24px 40px; }
+
+/* === Hero / Title Area === */
+.page-hero {
+  text-align: center; padding: 48px 0 32px;
+}
+.page-hero h1 {
+  font-size: var(--font-size-2xl); font-weight: 800; color: #fff;
+  letter-spacing: -0.02em; margin-bottom: 8px;
+}
+.page-hero h1 span.highlight { color: var(--color-policy); }
+.page-hero p.subtitle { color: var(--text-secondary); font-size: var(--font-size-base); }
+.page-hero p.meta { color: var(--text-muted); font-size: var(--font-size-sm); margin-top: 8px; }
+
+/* === Category Cards Grid === */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px; margin-bottom: 40px;
+}
+.category-card {
+  position: relative; display: block;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md); padding: 22px 20px;
+  text-decoration: none; transition: all 0.2s;
+  cursor: pointer;
+}
+.category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+.category-card .c-icon {
+  font-size: 28px; margin-bottom: 12px;
+}
+.category-card .c-name {
+  font-size: var(--font-size-lg); font-weight: 700; color: #fff;
+  margin-bottom: 6px;
+}
+.category-card .c-desc {
+  font-size: var(--font-size-sm); color: var(--text-secondary);
+  line-height: 1.6; margin-bottom: 14px;
+}
+.category-card .c-count {
+  font-size: var(--font-size-sm); font-weight: 600;
+}
+
+/* === Section === */
+.section { margin-bottom: 48px; }
+.section-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.section-header .s-icon { font-size: 22px; }
+.section-header h3 { font-size: var(--font-size-xl); font-weight: 700; color: #fff; font-size: 1.25rem; }
+.section-header .s-tag {
+  margin-left: auto; font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 10px;
+  background: rgba(255,255,255,0.05); color: var(--text-muted);
+}
+
+/* === Card === */
+.card {
+  background: var(--bg-card); border-radius: var(--radius-md);
+  padding: 22px 26px; margin-bottom: 18px;
+  border: 1px solid var(--border-color);
+  transition: border-color 0.2s;
+}
+.card:hover { border-color: rgba(255,255,255,0.08); }
+.card-title {
+  font-size: var(--font-size-lg); font-weight: 700; color: #fff;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+.card-title .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* === Table === */
+.table-wrap { overflow-x: auto; margin-top: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  background: rgba(255,255,255,0.04); color: var(--text-secondary);
+  padding: 10px 12px; text-align: left; font-weight: 600;
+  white-space: nowrap; font-size: 12px; border-bottom: 1px solid var(--border-color);
+}
+tbody td {
+  padding: 9px 12px; border-bottom: 1px solid var(--border-color);
+  vertical-align: top; color: var(--text-primary);
+}
+tbody tr:hover { background: rgba(255,255,255,0.02); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* === Badges === */
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-green { background: rgba(0,212,170,0.12); color: #00d4aa; }
+.badge-blue  { background: rgba(108,99,255,0.12); color: #7b73ff; }
+.badge-gold  { background: rgba(240,165,0,0.12); color: #f0a500; }
+.badge-red   { background: rgba(255,107,107,0.12); color: #ff6b6b; }
+.badge-gray  { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+.badge-line  { background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); }
+
+/* === Policy Card === */
+.policy-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md); padding: 18px 22px; margin-bottom: 14px;
+  transition: all 0.2s;
+}
+.policy-card:hover { border-color: var(--color-policy); }
+.policy-card .policy-title { font-size: 14.5px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.policy-card .policy-meta { font-size: 11.5px; color: var(--text-secondary); margin-bottom: 10px; display: flex; gap: 14px; flex-wrap: wrap; }
+.policy-card .policy-quote {
+  background: rgba(255,255,255,0.03); border-left: 3px solid var(--color-policy);
+  padding: 10px 14px; font-size: 13px; line-height: 1.7;
+  color: var(--text-primary); border-radius: 0 6px 6px 0; margin: 8px 0;
+}
+.policy-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 10px; font-size: 12.5px; color: var(--color-policy);
+  font-weight: 600; text-decoration: none;
+  border: 1px solid var(--border-color); border-radius: 6px;
+  padding: 4px 12px; background: rgba(108,99,255,0.06);
+  transition: all 0.15s;
+}
+.policy-link:hover { color: #8b83ff; border-color: var(--color-policy); background: rgba(108,99,255,0.12); }
+
+/* === Talk Card === */
+.talk-card {
+  background: var(--bg-card); border-radius: var(--radius-md);
+  padding: 16px 20px; margin-bottom: 12px; border: 1px solid var(--border-color);
+}
+.talk-card .talk-q { font-size: 13px; font-weight: 700; color: var(--color-policy); margin-bottom: 6px; }
+.talk-card .talk-q::before { content: "\1F464 家长："; }
+.talk-card .talk-a { font-size: 13px; color: var(--text-primary); line-height: 1.7; }
+.talk-card .talk-a::before { content: "\1F4AC "; color: var(--color-competition); }
+.talk-card .talk-source { font-size: 11px; color: var(--text-muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border-color); }
+
+/* === Collapse === */
+.collapse-header { cursor: pointer; user-select: none; display: flex; align-items: center; gap: 8px; }
+.collapse-header::before { content: "\25B6"; font-size: 10px; transition: transform 0.2s; color: var(--color-policy); }
+.collapse-header.open::before { transform: rotate(90deg); }
+.collapse-body { display: none; margin-top: 12px; }
+.collapse-body.open { display: block; }
+
+/* === District Tabs === */
+.district-tabs { display: flex; gap: 0; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); }
+.district-tab {
+  padding: 9px 22px; font-size: 13.5px; font-weight: 600;
+  cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  color: var(--text-secondary); transition: all 0.15s;
+}
+.district-tab:hover { color: #fff; }
+.district-tab.active { color: var(--color-district); border-bottom-color: var(--color-district); }
+.district-panel { display: none; }
+.district-panel.active { display: block; }
+
+/* === Competition Detail Cards (embedded inline style overrides) === */
+.comp-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-md); padding: 20px 22px; margin-bottom: 16px;
+}
+.comp-card .comp-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.comp-card .comp-name { font-size: 16px; font-weight: 800; color: #fff; }
+
+/* === Footer === */
+.page-footer {
+  text-align: center; padding: 28px 0 20px;
+  font-size: 12px; color: var(--text-muted);
+  border-top: 1px solid var(--border-color); margin-top: 40px;
+}
+.page-footer p + p { margin-top: 4px; }
+
+/* === Responsive === */
+@media (max-width: 800px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-search { width: 160px; }
+  .nav-inner { gap: 10px; }
+  .category-grid { grid-template-columns: 1fr; }
+  .main-content { padding: 0 16px 32px; }
+  .page-hero { padding: 32px 0 20px; }
+  .page-hero h1 { font-size: 1.35rem; }
+  .card { padding: 16px 18px; }
+  .district-tabs { overflow-x: auto; }
+}
+
+@media (max-width: 480px) {
+  .nav-search { width: 120px; }
+}
+</style>
+</style>
+</head>
+<body>
+
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <a href="#" class="nav-title">
+      <span>&#128218;</span>
+      <span>宁波编程教育指南</span>
+    </a>
+    <div class="nav-links">
+      <a href="#ch1" class="nav-link nav-policy">&#128220; 政策文件</a>
+      <a href="#ch2" class="nav-link nav-competition">&#127942; 竞赛信息</a>
+      <a href="#ch3" class="nav-link nav-admission">&#127891; 科技特长生</a>
+      <a href="#ch4" class="nav-link nav-district">&#127979; 学区信息</a>
+    </div>
+    <div class="nav-search">
+      <input type="text" id="globalSearch" placeholder="搜索政策、学校、赛事...">
+      <span class="search-count" id="searchCount"></span>
+      <button class="search-clear" id="searchClear" title="清除搜索">&times;</button>
+    </div>
+  </div>
+</nav>
+
+<main class="main-content">
+  <div class="page-hero">
+    <h1>&#127891; 宁波少儿编程教育<span class="highlight">指南</span></h1>
+    <p class="subtitle">政策文件 · 竞赛信息 · 科技特长生 · 学区信息 — 一站式查阅</p>
+    <p class="meta">共 4 大模块 · 最后更新：2026年6月</p>
+  </div>
+
+  <!-- Category Cards -->
+  <div class="category-grid">
+    <a href="#ch1" class="category-card" style="border-top: 3px solid var(--color-policy);" onclick="scrollToSection('ch1')">
+      <div class="c-icon">&#128220;</div>
+      <div class="c-name">政策文件</div>
+      <div class="c-desc">国家及地方推动编程、人工智能教育的官方政策文件</div>
+      <span class="c-count" style="color: var(--color-policy);">共 5 份政策文件 &#8595;</span>
+    </a>
+    <a href="#ch2" class="category-card" style="border-top: 3px solid var(--color-competition);" onclick="scrollToSection('ch2')">
+      <div class="c-icon">&#127942;</div>
+      <div class="c-name">竞赛信息</div>
+      <div class="c-desc">宁波各区编程、科创竞赛及教育部白名单赛事</div>
+      <span class="c-count" style="color: var(--color-competition);">本地 + 白名单赛事 &#8595;</span>
+    </a>
+    <a href="#ch3" class="category-card" style="border-top: 3px solid var(--color-admission);" onclick="scrollToSection('ch3')">
+      <div class="c-icon">&#127891;</div>
+      <div class="c-name">科技特长生</div>
+      <div class="c-desc">宁波市各高中科技特长生招生政策与要求</div>
+      <span class="c-count" style="color: var(--color-admission);">11所学校 · 206个名额 &#8595;</span>
+    </a>
+    <a href="#ch4" class="category-card" style="border-top: 3px solid var(--color-district);" onclick="scrollToSection('ch4')">
+      <div class="c-icon">&#127979;</div>
+      <div class="c-name">学区信息</div>
+      <div class="c-desc">海曙/鄞州/江北三区小学对口初中及招生政策</div>
+      <span class="c-count" style="color: var(--color-district);">三区小升初数据 &#8595;</span>
+    </a>
+  </div>
+
+    <!-- ========== CHAPTER 1: 国家政策文件 ========== -->
+    <div class="section" id="ch1">
+      <div class="section-header">
+        <span class="s-icon">&#128220;</span>
+        <h3>第一章　国家政策文件库</h3>
+        <span class="s-tag">权威背书 · 官方政策原文</span>
+      </div>
+
+      <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:18px;">
+        以下文件均为国家部委或省级政府公开发布，可直接引用文件名和核心条款。
+        点击每条政策可展开查看原文摘要和要点解读。
+      </p>
+
+      <!-- Policy 1 -->
+      <div class="policy-card">
+        <div class="collapse-header" onclick="toggle(this)">
+          <span class="policy-title">1. 国务院《新一代人工智能发展规划》</span>
+        </div>
+        <div class="collapse-body">
+          <div class="policy-meta">
+            <span>&#128203; 文号：国发〔2017〕35号</span>
+            <span>&#128197; 发布日期：2017年7月20日</span>
+            <span>&#127963;&#65039; 发文单位：国务院</span>
+          </div>
+          <div class="policy-quote">
+            "实施全民智能教育项目，在中小学阶段设置人工智能相关课程，逐步推广编程教育。"
+          </div>
+          <a href="https://www.gov.cn/zhengce/content/2017-07/20/content_5211996.htm" target="_blank" class="policy-link" title="打开国务院官网查看原文">&#128196; 查看政府官网原文 &rarr;</a>
+          </div>
+      </div>
+
+      <!-- Policy 2 -->
+      <div class="policy-card">
+        <div class="collapse-header" onclick="toggle(this)">
+          <span class="policy-title">2. 教育部《中小学综合实践活动课程指导纲要》</span>
+        </div>
+        <div class="collapse-body">
+          <div class="policy-meta">
+            <span>&#128203; 文号：教材〔2017〕4号</span>
+            <span>&#128197; 发布日期：2017年10月30日</span>
+            <span>&#127963;&#65039; 发文单位：教育部</span>
+          </div>
+          <div class="policy-quote">
+            "设计制作活动包含编程，提高学生技术意识、工程思维、动手操作能力。小学阶段学会运用信息技术设计并制作有一定创意的数字作品；初中阶段通过信息技术提高分析和解决问题的能力以及数字化产品设计与制作能力。"
+          </div>
+          <a href="https://www.moe.gov.cn/srcsite/A26/s8001/201710/t20171017_316616.html" target="_blank" class="policy-link" title="打开教育部官网查看原文">&#128196; 查看政府官网原文 &rarr;</a>
+          </div>
+      </div>
+
+      <!-- Policy 3 -->
+      <div class="policy-card">
+        <div class="collapse-header" onclick="toggle(this)">
+          <span class="policy-title">3. 教育部《关于加强中小学人工智能教育的通知》</span>
+        </div>
+        <div class="collapse-body">
+          <div class="policy-meta">
+            <span>&#128203; 文号：教基厅函〔2024〕32号</span>
+            <span>&#128197; 发布日期：2024年11月28日</span>
+            <span>&#127963;&#65039; 发文单位：教育部办公厅</span>
+          </div>
+          <div class="policy-quote">
+            "到2030年前在全国中小学基本普及人工智能教育。将人工智能教育纳入中小学信息科技课程内容，鼓励各地出台人工智能教育课程指导意见。"
+          </div>
+          <a href="https://www.gov.cn/lianbo/bumen/202412/content_6990729.htm" target="_blank" class="policy-link" title="打开中国政府网查看原文">&#128196; 查看政府官网原文 &rarr;</a>
+          </div>
+      </div>
+
+      <!-- Policy 4 -->
+      <div class="policy-card">
+        <div class="collapse-header" onclick="toggle(this)">
+          <span class="policy-title">4. 五部门《"人工智能+教育"行动计划（2026-2030年）》</span>
+        </div>
+        <div class="collapse-body">
+          <div class="policy-meta">
+            <span>&#128203; 文号：教科信〔2026〕1号</span>
+            <span>&#128197; 发布日期：2026年4月8日</span>
+            <span>&#127963;&#65039; 发文单位：教育部、国家发展改革委、工业和信息化部、科技部、国家数据局</span>
+          </div>
+          <div class="policy-quote">
+            "推动人工智能教育全面纳入地方课程体系，指导各地研制人工智能课程指南，明确各学段课程目标、内容与课时要求。持续完善《中小学人工智能通识教育指南》，开齐开足开好人工智能相关课程。"
+          </div>
+          <div class="policy-quote" style="border-left-color:var(--color-policy);background:rgba(255,255,255,0.03);">
+            "坚持科技教育与人文教育相结合，注重学生的启智、心灵的培养，引导学生科学认识、合理利用智能技术，提升学生智能素养，激发学生好奇心，培养创新思维。"
+          </div>
+          <a href="https://www.gov.cn/zhengce/zhengceku/202604/content_7065138.htm" target="_blank" class="policy-link" title="打开中国政府网查看原文">&#128196; 查看政府官网原文 &rarr;</a>
+          </div>
+      </div>
+
+      <!-- Policy 5 -->
+      <div class="policy-card">
+        <div class="collapse-header" onclick="toggle(this)">
+          <span class="policy-title">5. 浙江省《推进"人工智能+教育"行动方案（2025-2029年）》</span>
+        </div>
+        <div class="collapse-body">
+          <div class="policy-meta">
+            <span>&#128203; 文号：浙教技〔2025〕24号</span>
+            <span>&#128197; 发布日期：2025年4月29日</span>
+            <span>&#127963;&#65039; 发文单位：浙江省教育厅、浙江省发展改革委、浙江省科技厅、浙江省数据局</span>
+          </div>
+          <div class="policy-quote">
+            "研究制定中小学人工智能通识教育指南，建设系列人工智能相关读物，进一步完善信息科技、综合实践活动、劳动等课程中人工智能教育要求，推广跨学科学习、大单元教学、学科实践的教学模式。"
+          </div>
+          <div class="policy-quote" style="border-left-color:var(--color-policy);background:rgba(255,255,255,0.03);">
+            "建好6个教育部中小学人工智能教育基地和100所省人工智能教育应用试点校，培育10个人工智能助力教育教学改革试点区、50所试点校。"
+          </div>
+          <a href="https://www.zj.gov.cn/art/2025/4/30/art_1229872810_60281473.html" target="_blank" class="policy-link" title="打开浙江省政府官网查看原文">&#128196; 查看政府官网原文 &rarr;</a>
+          </div>
+      </div>
+
+      <!-- Policy Summary Table -->
+      <div class="card" style="margin-top:18px;">
+        <div class="card-title"><span class="dot"></span>政策文件速查表</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>文件名称</th>
+                <th>发文单位</th>
+                <th>年份</th>
+                <th>与编程/AI教育相关内容</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>《新一代人工智能发展规划》</td>
+                <td>国务院</td>
+                <td>2017</td>
+                <td>中小学推广编程教育</td>
+                </tr>
+              <tr>
+                <td>2</td>
+                <td>《中小学综合实践活动课程指导纲要》</td>
+                <td>教育部</td>
+                <td>2017</td>
+                <td>编程纳入设计制作活动</td>
+                </tr>
+              <tr>
+                <td>3</td>
+                <td>《关于加强中小学人工智能教育的通知》</td>
+                <td>教育部办公厅</td>
+                <td>2024</td>
+                <td>2030年前普及AI教育</td>
+                </tr>
+              <tr>
+                <td>4</td>
+                <td>《"人工智能+教育"行动计划》</td>
+                <td>五部门</td>
+                <td>2026</td>
+                <td>AI纳入地方课程体系</td>
+                </tr>
+              <tr>
+                <td>5</td>
+                <td>《浙江省"AI+教育"行动方案》</td>
+                <td>浙江省四部门</td>
+                <td>2025</td>
+                <td>100所试点校、50所应用试点校</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /ch1 -->
+
+    <!-- ========== CHAPTER 2: 编程/科创赛事 ========== -->
+    <div class="section" id="ch2">
+      <div class="section-header">
+        <span class="s-icon">&#127942;</span>
+        <h3>第二章　宁波编程/科创赛事指南</h3>
+        <span class="s-tag">白名单 · 按年级推荐</span>
+      </div>
+
+      <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:18px;">
+        以下赛事均为<strong>适合软件编程（Scratch/Python/C++）方向</strong>的比赛。
+        纯机器人/硬件赛事未列入（小码王不教授机器人编程）。标注"选编程赛项"的赛事含多个赛项，报名时需注意选择。
+      </p>
+
+      <!-- 2.1 本地赛事详情 -->
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>2.1 宁波本地高含金量赛事 · 详情速览</div>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">以下赛事对宁波本地升学有直接价值，家长了解后可快速判断孩子适合参加哪些比赛。</p>
+
+        <!-- Competition Card: 珠峰计划 -->
+        <div style="background:linear-gradient(135deg,rgba(108,99,255,0.06),rgba(108,99,255,0.02));border:1px solid var(--border-color);border-radius:var(--radius-md);padding:20px 22px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
+            <span style="font-size:16px;font-weight:800;color:var(--color-policy);">🥇 海曙区「长三角科创珠峰计划」</span>
+            <span class="badge badge-red">⭐ 强烈推荐</span>
+            <span class="badge badge-gold">海曙区</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 20px;font-size:13px;line-height:1.9;">
+            <div><strong>🎓 发起人：</strong>香港科技大学 <span style="color:var(--color-policy);font-weight:700;">李泽湘教授</span>（大疆无人机孵化者，被誉为「科创教父」）</div>
+            <div><strong>📍 定位：</strong><span style="color:#ff6b6b;font-weight:600;">全国首个试点落地海曙</span>，幼儿园到高中的K12贯通式科创人才培养</div>
+            <div><strong>🏛️ 主办方：</strong>宁波市教育学会、海曙区教育局、海曙区关工委</div>
+            <div><strong>📅 首届竞赛：</strong>2024年12月28日，千余名学生团队参赛</div>
+            <div><strong>🏫 基地校：</strong>海曙中学、海曙外国语学校</div>
+            <div><strong>🎯 适合年级：</strong>3年级以上（Scratch → C++ 全路径覆盖）</div>
+          </div>
+          <div style="margin-top:12px;padding:12px 14px;background:rgba(255,255,255,0.03);border-radius:6px;border:1px dashed var(--border-color);font-size:13px;line-height:1.8;">
+            <strong>📋 竞赛项目（4项）：</strong><br>
+            ① <strong>计算思维算法设计</strong> — 数据结构、算法应用、编程解题（与CSP-J高度相关）<br>
+            ② <strong>计算思维芯片设计</strong> — 电子计算装置搭建（逻辑+算法）<br>
+            ③ <strong>APM机器人挑战赛</strong> — 机器人编程竞技<br>
+            ④ <strong>青少年DI创新思维竞赛</strong> — 跨学科创新挑战
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--text-secondary);">
+            📰 来源：宁波市教育学会、海曙区教育局
+          </div>
+        </div>
+
+        <!-- Competition Card: 鄞州AI试点 -->
+        <div style="background:linear-gradient(135deg,rgba(0,212,170,0.06),rgba(0,212,170,0.02));border:1px solid var(--border-color);border-radius:var(--radius-md);padding:20px 22px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
+            <span style="font-size:16px;font-weight:800;color:var(--color-policy);">🥈 鄞州区「4域9系」竞赛 &amp; AI+教育改革试点</span>
+            <span class="badge badge-blue">推荐</span>
+            <span class="badge badge-gold">鄞州区</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 20px;font-size:13px;line-height:1.9;">
+            <div><strong>🏆 资质：</strong>浙江省首批AI+教育改革试点区（全省仅少数区域入选）</div>
+            <div><strong>🏫 试点校：</strong>央馆AI课程 <span style="color:var(--color-policy);font-weight:700;">8所试点校</span></div>
+            <div><strong>🔬 硬件：</strong>「即学即测」实验室<span style="color:#ff6b6b;font-weight:600;">全覆盖</span></div>
+            <div><strong>📋 竞赛体系：</strong>「4域9系」中的编程科技系列——鄞州教育局主办，本地认可度高</div>
+            <div><strong>🎯 适合年级：</strong>小学全阶段（编程方向）+ 初中各年级</div>
+            <div><strong>💡 家长关注：</strong>鄞州区是浙江省首批AI教改试点区，区里非常重视编程/AI教育</div>
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--text-secondary);">
+            📰 来源：浙江省教育厅 | 🔗 <a href="https://jyt.zj.gov.cn/" target="_blank">浙江省教育厅官网</a>
+          </div>
+        </div>
+
+        <!-- Competition Card: 江北青智班 -->
+        <div style="background:linear-gradient(135deg,rgba(240,165,0,0.06),rgba(240,165,0,0.02));border:1px solid var(--border-color);border-radius:var(--radius-md);padding:20px 22px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
+            <span style="font-size:16px;font-weight:800;color:var(--color-policy);">🥈 江北区「青藤书院·青智班及AI夏令营」</span>
+            <span class="badge badge-blue">推荐</span>
+            <span class="badge badge-gray">江北区</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px 20px;font-size:13px;line-height:1.9;">
+            <div><strong>🏫 学校背景：</strong>宁波大学 × 江北区政府联合创办的九年一贯制公办学校（五四制），<span style="color:#ff6b6b;font-weight:600;">江北区首屈一指</span>的优质校</div>
+            <div><strong>📊 升学成绩：</strong>重高率约65%，普高率约91%</div>
+            <div><strong>🎓 「青智班」：</strong>面向AI/编程方向的特色班级，是江北顶尖初中的选拔通道</div>
+            <div><strong>🏕️ 首届AI夏令营（2024年）：</strong>江北区科协主办，科大讯飞技术支持</div>
+            <div><strong>💻 课程内容：</strong>编程技能、机器学习、深度学习、AIGC创作</div>
+            <div><strong>🔥 热度：</strong>2025年底发布<span style="color:#ff6b6b;font-weight:600;">红色招生预警</span>，报名远超学位</div>
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--text-secondary);">
+            📰 来源：公开报道、江北区教育局
+          </div>
+        </div>
+
+        <!-- Competition Card: 全市科创活动 -->
+        <div style="background:linear-gradient(135deg,rgba(255,107,107,0.06),rgba(255,107,107,0.02));border:1px solid var(--border-color);border-radius:var(--radius-md);padding:20px 22px;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;">
+            <span style="font-size:16px;font-weight:800;color:var(--color-policy);">🌍 宁波市级科创活动（覆盖全市各区）</span>
+            <span class="badge badge-green">全市通用</span>
+          </div>
+          <div class="table-wrap" style="margin-top:4px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>项目/活动</th>
+                  <th>规模</th>
+                  <th>与编程关系</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>「智创未来·甬动校园」</strong></td>
+                  <td>全市 <span style="color:var(--color-policy);font-weight:700;">832所</span> 中小学</td>
+                  <td>覆盖编程、AI、数字创作</td>
+                </tr>
+                <tr>
+                  <td><strong>宁波市中小学信息技术创作大赛</strong></td>
+                  <td>2024年 <span style="color:var(--color-policy);font-weight:700;">1138人</span> 参与AI创意编程，418人获奖</td>
+                  <td>✅ 直接就是编程赛项</td>
+                </tr>
+                <tr>
+                  <td><strong>宁波市青少年科技创新大赛</strong></td>
+                  <td>各区择优推荐30个市级总决赛</td>
+                  <td>含科创成果赛项（编程作品可参赛）</td>
+                </tr>
+                <tr>
+                  <td><strong>⭐ 教育部首批全国科学教育实验区</strong></td>
+                  <td>宁波入选，为25个协同组<span style="color:var(--color-admission);font-weight:700;">召集方</span></td>
+                  <td>国家级科学教育实验区，含金量极高</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:8px;font-size:12px;color:var(--text-secondary);">
+            📰 来源：宁波市教育局
+          </div>
+        </div>
+      </div>
+
+      <!-- 2.2 白名单赛事 -->
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>2.2 教育部白名单赛事（2025-2028学年·有效·含软件编程赛项）</div>
+        <div style="font-size:12px;color:var(--color-policy);background:rgba(108,99,255,0.08);padding:8px 12px;border-radius:6px;margin-bottom:12px;">
+          📋 完整白名单共47项赛事，详见教育部官网：<a href="https://www.moe.gov.cn/srcsite/A29/202510/t20251029_1418393.html" target="_blank" style="font-weight:600;">2025-2028学年全国性竞赛活动名单（教育部官网原文）</a>
+        </div>
+
+        <!-- 重点赛事详情卡片 -->
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">以下为<strong>与软件编程（Scratch/Python/C++）直接相关</strong>的重点赛事：</p>
+
+        <!-- Key Competition: CSP/NOI -->
+        <div style="background:linear-gradient(135deg,rgba(108,99,255,0.06),rgba(108,99,255,0.02));border:1px solid var(--border-color);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+            <span style="font-size:15px;font-weight:800;color:var(--color-policy);">🏆 CSP-J/S → NOIP → NOI（信息学奥赛）</span>
+            <span class="badge badge-red">最高含金量</span>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.8;">
+            <strong>主办：</strong>中国计算机学会（CCF）&nbsp;|&nbsp; <strong>等级：</strong>五大学科奥赛之一 &nbsp;|&nbsp; <strong>语言：</strong>C++<br>
+            <strong>路径：</strong>CSP-J（入门）→ CSP-S（提高）→ NOIP（省赛）→ NOI（国赛）→ IOI（国际赛）<br>
+            <strong>适合：</strong>4年级以上，目标科技特长生/强基计划的学生<br>
+            🔗 <a href="https://www.noi.cn/" target="_blank">CSP/NOI官网 noi.cn</a> &nbsp;|&nbsp; 🔗 <a href="https://www.ccf.org.cn/" target="_blank">中国计算机学会 ccf.org.cn</a>
+          </div>
+        </div>
+
+        <!-- Key Competition: GESP -->
+        <div style="background:linear-gradient(135deg,rgba(0,212,170,0.06),rgba(0,212,170,0.02));border:1px solid var(--border-color);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+            <span style="font-size:15px;font-weight:800;color:var(--color-policy);">📝 CCF软件编程等级考试（GESP）</span>
+            <span class="badge badge-green">全龄段</span>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.8;">
+            <strong>主办：</strong>中国计算机学会（CCF）&nbsp;|&nbsp; <strong>语言：</strong>Scratch / Python / C++（1-8级）<br>
+            <strong>特点：</strong>从1年级即可参加，逐级认证，GESP 7-8级可直通CSP-J/S第二轮<br>
+            <strong>考试频次：</strong>每年4次（3月、6月、9月、12月）<br>
+            🔗 <a href="https://gesp.ccf.org.cn/" target="_blank">GESP官网 gesp.ccf.org.cn</a>
+          </div>
+        </div>
+
+        <!-- Key Competition: AI Innovation Challenge -->
+        <div style="background:linear-gradient(135deg,rgba(240,165,0,0.06),rgba(240,165,0,0.02));border:1px solid var(--border-color);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+            <span style="font-size:15px;font-weight:800;color:var(--color-policy);">🤖 全国青少年人工智能创新挑战赛</span>
+            <span class="badge badge-blue">AI方向首选</span>
+          </div>
+          <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.8;">
+            <strong>主办：</strong>中国少年儿童发展服务中心 &nbsp;|&nbsp; <strong>适合：</strong>3年级以上<br>
+            <strong>赛项：</strong>含AI智能体开发专项赛、虚拟仿真平台创新设计等赛项<br>
+            <strong>特点：</strong>偏AI应用方向，Scratch/Python均可参赛<br>
+            🔗 <a href="http://aiic.china61.org.cn/" target="_blank">AI创新挑战赛官网 aiic.china61.org.cn</a>
+          </div>
+        </div>
+
+        <!-- 完整赛事表 -->
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;"><strong>📊 全部白名单软件编程赛事一览表：</strong></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>赛事名称</th>
+                <th>适合语言</th>
+                <th>适合年级</th>
+                <th>赛项说明</th>
+                <th>推荐程度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-gold">🔴 核心</span></td>
+                <td><strong>全国中学生信息学奥林匹克（CSP-J/S → NOIP → NOI）</strong></td>
+                <td>C++</td>
+                <td>4年级+</td>
+                <td>纯软件编程，信息学最高赛事<br><a href="https://www.noi.cn/" target="_blank" style="font-size:11px;">🔗 noi.cn</a></td>
+                <td><span class="badge badge-green">⭐⭐⭐⭐⭐ 强烈推荐</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-blue">推荐</span></td>
+                <td>全国青少年软件编程等级考试（STEAM）</td>
+                <td>Scratch/Python/C++</td>
+                <td>1年级+</td>
+                <td>纯软件编程等级认证<br><a href="https://gesp.ccf.org.cn/" target="_blank" style="font-size:11px;">🔗 gesp.ccf.org.cn</a></td>
+                <td><span class="badge badge-green">⭐⭐⭐⭐⭐ 推荐</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-blue">推荐</span></td>
+                <td>全国青少年人工智能创新挑战赛（AI编程赛项）</td>
+                <td>Python/Scratch</td>
+                <td>3年级+</td>
+                <td>选"编程赛项"，含AI应用<br><a href="http://aiic.china61.org.cn/" target="_blank" style="font-size:11px;">🔗 aiic.china61.org.cn</a></td>
+                <td><span class="badge badge-green">⭐⭐⭐⭐ 推荐</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-blue">推荐</span></td>
+                <td>全国青少年人工智能大赛（编程赛项）</td>
+                <td>Python</td>
+                <td>4年级+</td>
+                <td>2025-2028新增赛事，选编程赛项<br><a href="https://www.qingnianaicn.cn/" target="_blank" style="font-size:11px;">🔗 qingnianaicn.cn</a></td>
+                <td><span class="badge badge-green">⭐⭐⭐⭐ 推荐</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-line">可选</span></td>
+                <td>世界机器人大会青少年信息素养大赛（软件编程赛项）</td>
+                <td>Scratch/Python</td>
+                <td>3年级+</td>
+                <td>含机器人赛项，需选"软件编程赛项"<br><a href="https://ceic.kpcb.org.cn/cms/gyds/index.htm" target="_blank" style="font-size:11px;">🔗 信息素养类官网</a></td>
+                <td><span class="badge badge-blue">⭐⭐⭐ 可选</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-line">可选</span></td>
+                <td>全国青少年科学探究建模能力大赛（编程建模赛项）</td>
+                <td>Python</td>
+                <td>4年级+</td>
+                <td>新增赛事，含编程建模方向<br><a href="https://simcc.bnu.edu.cn/" target="_blank" style="font-size:11px;">🔗 simcc.bnu.edu.cn</a></td>
+                <td><span class="badge badge-blue">⭐⭐⭐ 可选</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2.3 赛事变动说明 -->
+      <div class="card" style="border-left:4px solid #ff6b6b;">
+        <div class="card-title"><span class="dot" style="background:#ff6b6b;"></span>2.3 2025-2028学年赛事变动说明</div>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">
+          2025年教育部更新了白名单赛事，以下赛事不再列入2025-2028学年教育部白名单，参加前请注意核实。
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>赛事名称</th>
+                <th>移出年份</th>
+                <th>移出原因</th>
+                <th>现状</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><s>NOC全国中小学信息技术创新与实践大赛</s></td>
+                <td>2025</td>
+                <td>过度商业化</td>
+                <td>已停办</td>
+                
+              </tr>
+              <tr>
+                <td><s>蓝桥杯全国软件和信息技术专业人才大赛</s></td>
+                <td>2025</td>
+                <td>过度商业化</td>
+                <td>仍在举办但无白名单资质</td>
+                
+              </tr>
+              <tr>
+                <td><s>全国青少年科技教育成果展示大赛</s></td>
+                <td>2025</td>
+                <td>被移出白名单</td>
+                <td>无白名单资质</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><s>"北斗杯"全国青少年空天科技体验与创新大赛</s></td>
+                <td>2025</td>
+                <td>管理问题</td>
+                <td>已暂停</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 2.4 按年级推荐 -->
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>2.4 按年级赛事推荐速查表</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>年级段</th>
+                <th>推荐白名单赛事</th>
+                <th>推荐学习方向</th>
+                <th>目标证书</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1-2年级</td>
+                <td>全国青少年软件编程等级考试（Scratch级）</td>
+                <td>Scratch启蒙</td>
+                <td>Scratch一级/二级</td>
+              </tr>
+              <tr>
+                <td>3-4年级</td>
+                <td>人工智能创新挑战赛（Scratch赛项）<br>软件编程等级考试（Python级）</td>
+                <td>Scratch进阶 / Python入门</td>
+                <td>Scratch三级+ / Python一级</td>
+              </tr>
+              <tr>
+                <td>5-6年级</td>
+                <td>CSP-J（入门组）<br>人工智能大赛（Python赛项）<br>软件编程等级考试（C++级）</td>
+                <td>Python / C++入门</td>
+                <td>CSP-J二等奖+ / Python三级+</td>
+              </tr>
+              <tr>
+                <td>7-9年级</td>
+                <td>CSP-J/S（提高组）<br>NOIP（省赛）<br>人工智能创新挑战赛（Python赛项）</td>
+                <td>C++ / Python进阶</td>
+                <td>CSP-S二等奖+ / NOIP省二等奖+</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /ch2 -->
+
+    <!-- ========== CHAPTER 3: 科技特长生 ========== -->
+    <div class="section" id="ch3">
+      <div class="section-header">
+        <span class="s-icon">&#127891;</span>
+        <h3>第三章　2026年宁波中考科技特长生</h3>
+        <span class="s-tag">11所学校 · 206个名额</span>
+      </div>
+
+      <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:18px;">
+        2026年宁波市共有<strong>11所高中</strong>招收科技类特长生，合计约<strong>206人</strong>。
+        以下数据来自各高中官方招生简章及教育局公示，家长可根据孩子情况了解目标学校。
+      </p>
+
+      <!-- 3.1 总览 -->
+      <div class="card" style="background:linear-gradient(135deg,rgba(108,99,255,0.06),rgba(108,99,255,0.02));">
+        <div class="card-title"><span class="dot"></span>3.1 2026年科技特长生招生总览</div>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:180px;">
+            <div style="font-size:28px;font-weight:800;color:var(--color-policy);">11所</div>
+            <div style="font-size:12px;color:var(--text-secondary);">招收科技特长生的高中</div>
+          </div>
+          <div style="flex:1;min-width:180px;">
+            <div style="font-size:28px;font-weight:800;color:var(--color-policy);">206人</div>
+            <div style="font-size:12px;color:var(--text-secondary);">科技类特长生总招生计划</div>
+          </div>
+          <div style="flex:1;min-width:180px;">
+            <div style="font-size:28px;font-weight:800;color:var(--color-admission);">5月15-16日</div>
+            <div style="font-size:12px;color:var(--text-secondary);">2026年特长生报名时间</div>
+          </div>
+          <div style="flex:1;min-width:180px;">
+            <div style="font-size:28px;font-weight:800;color:var(--color-admission);">5月23-24日</div>
+            <div style="font-size:12px;color:var(--text-secondary);">校测时间</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.2 各学校详细数据 -->
+      <div class="card">
+        <div class="card-title"><span class="dot"></span>3.2 各学校招生详细数据</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>学校</th>
+                <th>招生项目</th>
+                <th>人数</th>
+                <th>中考分数要求</th>
+                <th>核心资质要求</th>
+                <th>考试内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>鄞州中学</strong></td>
+                <td>信息学</td>
+                <td>6人</td>
+                <td>610分+</td>
+                <td>CSP-S第二轮三等奖及以上<br>或宁波市区县级计算机展示一等奖</td>
+                <td>笔试 + 机试</td>
+              </tr>
+              <tr>
+                <td><strong>鄞州中学</strong></td>
+                <td>机器人</td>
+                <td>4人</td>
+                <td>—</td>
+                <td>白名单轮式机器人全国二等奖+</td>
+                <td>笔试 + 机器人实操</td>
+              </tr>
+              <tr>
+                <td><strong>鄞州中学</strong></td>
+                <td>人工智能</td>
+                <td>36人</td>
+                <td>—</td>
+                <td>区县级科技类比赛三等奖+</td>
+                <td>笔试 + 项目演示</td>
+              </tr>
+              <tr>
+                <td><strong>效实中学（东部）</strong></td>
+                <td>人工智能</td>
+                <td>40人</td>
+                <td>中考30% + 测试70%综合分</td>
+                <td>科技类比赛三等奖+</td>
+                <td>学科基础 + 专业测试</td>
+              </tr>
+              <tr>
+                <td><strong>效实中学（东部）</strong></td>
+                <td>大数据技术</td>
+                <td>6人</td>
+                <td>同上</td>
+                <td>CSP第二轮二等奖+<br>或 GESP八级≥80分</td>
+                <td>信息学测试 + 面试</td>
+              </tr>
+              <tr>
+                <td><strong>效实中学（白杨）</strong></td>
+                <td>大数据技术</td>
+                <td>20人</td>
+                <td>中考30% + 测试70%</td>
+                <td>科技类比赛三等奖+</td>
+                <td>文理综合 + 专业测试</td>
+              </tr>
+              <tr>
+                <td><strong>宁波中学</strong></td>
+                <td>人工智能</td>
+                <td>20人</td>
+                <td>科学≥140分</td>
+                <td>人工智能/科创/论文/专利优秀成果</td>
+                <td>理科综合 + AI素养测试</td>
+              </tr>
+              <tr>
+                <td><strong>宁波科创中学</strong></td>
+                <td>机器人技术</td>
+                <td>20人</td>
+                <td>595分</td>
+                <td>科技类比赛三等奖+</td>
+                <td>笔试 + 专业术科测试</td>
+              </tr>
+              <tr>
+                <td><strong>宁波科学中学</strong></td>
+                <td>智能制造</td>
+                <td>20人</td>
+                <td>594分</td>
+                <td>小发明/信息技术突出表现</td>
+                <td>创新能力测试 + 实践</td>
+              </tr>
+              <tr>
+                <td><strong>海曙中学</strong></td>
+                <td>智能制造</td>
+                <td>20人</td>
+                <td>615分</td>
+                <td>数学/编程/科创专长+</td>
+                <td>数理素养 + 专业术科测试</td>
+              </tr>
+              <tr>
+                <td><strong>宁波二中</strong></td>
+                <td>航空航天（科技）</td>
+                <td>10人</td>
+                <td>600分</td>
+                <td>科技类比赛三等奖+</td>
+                <td>笔试 + 实践</td>
+              </tr>
+              <tr>
+                <td><strong>姜山中学</strong></td>
+                <td>机器人工程</td>
+                <td>10人</td>
+                <td>600分</td>
+                <td>青少年电脑机器人比赛市三等奖+</td>
+                <td>笔试 + 面试 + 实操</td>
+              </tr>
+              <tr>
+                <td><strong>鄞州高级中学</strong></td>
+                <td>机器人工程</td>
+                <td>10人</td>
+                <td>600分</td>
+                <td>CSP-J第二轮二等奖+<br>或科技类比赛三等奖+</td>
+                <td>理论测试 + 专业术科</td>
+              </tr>
+              <tr>
+                <td><strong>惠贞书院</strong></td>
+                <td>人工智能</td>
+                <td>20人</td>
+                <td>—</td>
+                <td>科技类比赛三等奖+<br>或无人机/航空专长</td>
+                <td>笔试 + 实操</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:12px;color:var(--text-secondary);margin-top:10px;">
+          数据来源：各高中2026年特长生招生简章 · 统计截至2026年5月
+        </p>
+      </div>
+
+      <!-- 3.3 证书含金量梯队 -->
+      <div class="card" id="special">
+        <div class="card-title"><span class="dot"></span>3.3 证书含金量梯队（升学参考）</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>梯队</th>
+                <th>证书/资质</th>
+                <th>最受认可学校</th>
+                <th>建议冲刺年级</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:rgba(255,255,255,0.03);">
+                <td><span class="badge badge-gold">T0</span></td>
+                <td>CSP-S一等奖 / NOIP一等奖</td>
+                <td>鄞州中学、效实中学、宁波中学</td>
+                <td>7-9年级</td>
+              </tr>
+              <tr style="background:rgba(255,255,255,0.03);">
+                <td><span class="badge badge-gold">T0</span></td>
+                <td>CSP-S二等奖 / NOIP二等奖</td>
+                <td>效实中学（东部大数据）、鄞州高级中学</td>
+                <td>7-9年级</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-blue">T1</span></td>
+                <td>CSP-J一等奖 / GESP八级≥80分</td>
+                <td>效实中学（东部大数据）、鄞州高级中学</td>
+                <td>5-7年级</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-blue">T1</span></td>
+                <td>CSP-J二等奖 / GESP五级+</td>
+                <td>海曙中学、宁波二中、姜山中学</td>
+                <td>5-7年级</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-green">T2</span></td>
+                <td>白名单赛事全国二等奖+ / 市级一等奖</td>
+                <td>宁波科创中学、宁波科学中学、惠贞书院</td>
+                <td>4-8年级</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-gray">T3</span></td>
+                <td>区县级科技类比赛三等奖+</td>
+                <td>鄞州中学（人工智能方向）、惠贞书院</td>
+                <td>4-9年级</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /ch3 -->
+
+    <!-- Chapter 4: 小升初对口目录 -->
+    <div class="section" id="ch4">
+      <div class="section-header">
+        <span class="s-icon">🏫</span>
+        <h3>第四章　宁波小升初对口目录（2026）</h3>
+        <span class="s-tag">海曙 · 鄞州 · 江北 三区平级</span>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">
+        以下数据根据2026年宁波各区教育局公布的招生政策整理，供家长快速查询对口初中。
+        各区数据相互独立，点击标签页切换。
+      </p>
+
+      <div class="district-tabs" id="districtTabs">
+        <div class="district-tab active" onclick="switchDistrict('haishu', this)">海曙区</div>
+        <div class="district-tab" onclick="switchDistrict('yinzhou', this)">鄞州区</div>
+        <div class="district-tab" onclick="switchDistrict('jiangbei', this)">江北区</div>
+      </div>
+
+      <!-- 海曙区 -->
+      <div class="district-panel active" id="panel-haishu">
+        <div class="card" style="margin-bottom:14px;">
+          <div class="card-title"><span class="dot"></span>2026年海曙区小学招生重要变更</div>
+          <ul style="font-size:13px;line-height:2;padding-left:18px;">
+            <li><strong>海曙外国语学校清林闲庭校区</strong>正式启用，2026年秋季开始招生，对口初中为海曙外国语学校（初中部）清林校区。</li>
+            <li><strong>双学区试点</strong>：海曙中心小学（本部）与孙文英小学（布政巷校区）试行双学区，家长可二选一报名。</li>
+            <li><strong>储能学校丽园校区</strong>（九年一贯制）继续实行校内直升，小学部毕业生直接升入本校初中部。</li>
+          </ul>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>小学名称</th>
+                <th>对口初中</th>
+                <th>办学性质</th>
+                <th>高中主要流向</th>
+                <th>备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>宁波市实验小学</td><td>宁波市实验学校（初中部）</td><td>公办九年一贯</td><td>宁波中学、效实中学</td><td>校内直升</td></tr>
+              <tr><td>镇明中心小学（云石校区）</td><td>东恩中学</td><td>公办</td><td>宁波中学、效实、东恩高中</td><td>2025年重高强基28人</td></tr>
+              <tr><td>镇明中心小学（仓桥校区）</td><td>东恩中学</td><td>公办</td><td>宁波中学、效实、东恩高中</td><td></td></tr>
+              <tr><td>广济中心小学（广济街校区）</td><td>东恩中学</td><td>公办</td><td>宁波中学、效实</td><td>海曙核心学区</td></tr>
+              <tr><td>广济中心小学（世纪苑校区）</td><td>东恩中学</td><td>公办</td><td>宁波中学、效实、东恩高中</td><td></td></tr>
+              <tr><td>翰香小学</td><td>东恩中学</td><td>公办</td><td>东恩高中、城区普高</td><td>单一对口</td></tr>
+              <tr><td>海曙中心小学（本部）</td><td>海曙中学/孙文英小学（二选一）</td><td>公办</td><td>海曙中学、宁波中学</td><td>双学区试点2026</td></tr>
+              <tr><td>孙文英小学（布政巷校区）</td><td>海曙中学/海曙中心小学（二选一）</td><td>公办</td><td>海曙中学、宁波中学</td><td>双学区试点2026</td></tr>
+              <tr><td>海曙外国语学校（小学部）</td><td>海曙外国语学校（初中部）</td><td>公办九年一贯</td><td>海曙外国语高中、重点普高</td><td>2026新启清林闲庭校区</td></tr>
+              <tr><td>储能学校丽园校区（小学部）</td><td>储能学校丽园校区（初中部）</td><td>公办九年一贯</td><td>储能高中、城区普高</td><td>2022年民转公，校内直升</td></tr>
+              <tr><td>爱菊艺术学校（小学部）</td><td>十五中/爱菊初中部（二选一）</td><td>公办特色</td><td>艺术特色高中</td><td>毕业生可二选一</td></tr>
+              <tr><td>宁波市实验学校（小学部）</td><td>宁波市实验学校（初中部）</td><td>公办九年一贯</td><td>宁波中学、效实中学</td><td>校内直升</td></tr>
+              <tr><td>段塘学校（小学部）</td><td>段塘学校（初中部）</td><td>公办九年一贯</td><td>城区普高</td><td>校内直升</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:11.5px;color:var(--text-secondary);margin-top:8px;">📌 数据来源：海曙区教育局2026年招生公告 · 最后更新：2026年6月</p>
+      </div>
+
+      <!-- 鄞州区 -->
+      <div class="district-panel" id="panel-yinzhou">
+        <div class="card" style="margin-bottom:14px;">
+          <div class="card-title"><span class="dot"></span>2026年鄞州区小升初说明</div>
+          <ul style="font-size:13px;line-height:2;padding-left:18px;">
+            <li>鄞州区实行<strong>"校校对口"</strong>政策，每所小学有固定的对口初中，部分热门学校（宋诏桥中学、曙光中学）为<strong>红色预警</strong>学区。</li>
+            <li><strong>多校分流</strong>：学士小学等部分小学毕业生可在多所初中中选择，以当年教育局公告为准。</li>
+            <li><strong>九年一贯制</strong>：华师大宁波艺术实验学校、新城第一实验学校等实行校内直升。</li>
+          </ul>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>小学名称</th>
+                <th>对口初中</th>
+                <th>办学性质</th>
+                <th>高中主要流向</th>
+                <th>备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>宋诏桥小学</td><td>宋诏桥中学</td><td>公办</td><td>鄞州中学、效实东部</td><td>红色预警</td></tr>
+              <tr><td>堇山小学</td><td>宋诏桥中学</td><td>公办</td><td>鄞州中学、效实东部</td><td>红色预警</td></tr>
+              <tr><td>东湖小学</td><td>宋诏桥中学</td><td>公办</td><td>鄞州中学、效实东部</td><td>红色预警</td></tr>
+              <tr><td>华泰小学（东校区）</td><td>宋诏桥中学</td><td>公办</td><td>鄞州中学、效实东部</td><td>红色预警；"小院士"培育项目</td></tr>
+              <tr><td>四眼碶小学（新河校区）</td><td>曙光中学</td><td>公办</td><td>鄞州中学、效实东部</td><td>老江东优质</td></tr>
+              <tr><td>鄞州第二实验小学（东校区）</td><td>曙光中学</td><td>公办</td><td>鄞州中学、效实东部</td><td>老江东优质</td></tr>
+              <tr><td>中河实验小学</td><td>潘火实验中学</td><td>公办</td><td>鄞州中学</td><td>黄色预警</td></tr>
+              <tr><td>学士小学</td><td>鄞州实验中学 / 首南中学</td><td>公办</td><td>鄞州中学、效实东部</td><td>多校分流</td></tr>
+              <tr><td>华师大宁波艺术实验学校（小学部）</td><td>华师大宁波艺术实验（初中部）</td><td>九年一贯</td><td>鄞州中学、艺术特色</td><td>艺术特色，校内直升</td></tr>
+              <tr><td>新城第一实验学校（小学部）</td><td>新城第一实验（初中部）</td><td>九年一贯</td><td>效实东部、鄞州中学</td><td>东部新城标杆，校内直升</td></tr>
+              <tr><td>鄞州实验中学（小学部）</td><td>鄞州实验中学（初中部）</td><td>九年一贯</td><td>鄞州中学、效实</td><td>校内直升</td></tr>
+              <tr><td>首南街道中心小学</td><td>首南中学</td><td>公办</td><td>鄞州中学、鄞州高级中学</td><td></td></tr>
+              <tr><td>下应中心小学</td><td>下应中学</td><td>公办</td><td>鄞州中学、姜山中学</td><td></td></tr>
+              <tr><td>姜山实验小学</td><td>姜山中学（初中部）</td><td>公办</td><td>姜山中学</td><td></td></tr>
+              <tr><td>东钱湖镇中心小学</td><td>东钱湖中学</td><td>公办</td><td>鄞州中学、姜山中学</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:11.5px;color:var(--text-secondary);margin-top:8px;">📌 数据来源：鄞州区教育局2026年义务教育招生政策 · 最后更新：2026年6月</p>
+      </div>
+
+      <!-- 江北区 -->
+      <div class="district-panel" id="panel-jiangbei">
+        <div class="card" style="margin-bottom:14px;">
+          <div class="card-title"><span class="dot"></span>2026年江北区小升初说明</div>
+          <ul style="font-size:13px;line-height:2;padding-left:18px;">
+            <li>江北区实行<strong>"校校对口+九年一贯"</strong>政策，惠贞书院、江北外国语学校、青藤书院等为热门九年一贯制学校。</li>
+            <li><strong>5+4学制</strong>：惠贞书院实行小学5年+初中4年学制，提前一年进入初中课程。</li>
+            <li><strong>民办摇号</strong>：青藤书院（民办）需参加全市统一摇号，中签率较低。</li>
+          </ul>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>小学名称</th>
+                <th>对口初中</th>
+                <th>办学性质</th>
+                <th>高中主要流向</th>
+                <th>备注</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>江北实验小学</td><td>江北实验中学</td><td>公办</td><td>江北实验高中、重点普高</td><td>江北头部</td></tr>
+              <tr><td>上海交大教育集团宁波实验学校（小学部）</td><td>上海交大教育集团宁波实验学校（初中部）</td><td>公办</td><td>城区普高</td><td>庄桥南片区</td></tr>
+              <tr><td>庄桥中心小学</td><td>庄桥中学</td><td>公办</td><td>庄桥高中</td><td>单一对口</td></tr>
+              <tr><td>洪塘中心小学</td><td>洪塘中学</td><td>公办</td><td>洪塘高中</td><td>单一对口</td></tr>
+              <tr><td>新城外国语学校（小学部）</td><td>新城外国语学校（初中部）</td><td>公办九年一贯</td><td>外国语特色高中</td><td>校内直升</td></tr>
+              <tr><td>惠贞书院（小学部）</td><td>惠贞书院（初中部）</td><td>九年一贯（5+4）</td><td>惠贞高中、宁波中学</td><td>宁波顶尖5+4，学区房热门</td></tr>
+              <tr><td>江北外国语学校（小学部）</td><td>江北外国语学校（初中部）</td><td>九年一贯</td><td>江北外国语高中</td><td>热门一贯制</td></tr>
+              <tr><td>青藤书院（小学部）</td><td>青藤书院（初中部）</td><td>民办九年一贯</td><td>重点普高、强基计划</td><td>全市摇号，中签率低</td></tr>
+              <tr><td>育才实验学校（小学部）</td><td>育才实验学校（初中部）</td><td>九年一贯</td><td>城区普高</td><td>校内直升</td></tr>
+              <tr><td>慈城中心小学</td><td>慈城中学</td><td>公办</td><td>慈城高中、城区普高</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:11.5px;color:var(--text-secondary);margin-top:8px;">📌 数据来源：江北区教育局2026年初中招生政策 · 最后更新：2026年6月</p>
+      </div>
+  </div><!-- /ch4 -->
+
+  <div class="page-footer">
+      <p>宁波少儿编程教育资料库 · 小码王 &nbsp;|&nbsp; 版本 v2026.06 &nbsp;|&nbsp; 最后更新：2026年6月</p>
+      <p style="margin-top:4px;">本资料库内容根据公开政策文件及官方招生公告整理，如有更新请以官方最新公告为准。</p>
+    </div>
+
+</main>
+
+<script>
+// Navigate to section
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+// Active nav link on scroll
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll', function() {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 80;
+    if (window.scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    if (link.getAttribute('href') === '#' + current) {
+      link.style.color = '#fff';
+    } else {
+      link.style.color = '';
+    }
+  });
+});
+
+// District tab switching
+function switchDistrict(district, el) {
+  document.querySelectorAll('.district-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.district-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + district).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+// Collapse toggle
+document.querySelectorAll('.collapse-header').forEach(header => {
+  header.addEventListener('click', function() {
+    this.classList.toggle('open');
+    const body = this.nextElementSibling;
+    if (body) body.classList.toggle('open');
+  });
+});
+
+// ============ 全局搜索 ============
+const searchInput = document.getElementById('globalSearch');
+const searchCount = document.getElementById('searchCount');
+const searchClear = document.getElementById('searchClear');
+
+// 所有可搜索的内容块
+function getSearchableBlocks() {
+  return document.querySelectorAll('.policy-card, .card, .category-card, .talk-card, .comp-card');
+}
+
+// 高亮文本匹配
+function highlightText(containerEl, keyword) {
+  if (!keyword || keyword.length === 0) return 0;
+  
+  // 使用 TreeWalker 遍历所有文本节点
+  const walker = document.createTreeWalker(containerEl, NodeFilter.SHOW_TEXT, null, false);
+  const textNodes = [];
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    // 跳过 script/style 和已经处理过的 span
+    if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') continue;
+    if (node.parentElement.classList.contains('search-match-highlight')) continue;
+    textNodes.push(node);
+  }
+  
+  let matchCount = 0;
+  const regex = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  
+  textNodes.forEach(node => {
+    const text = node.textContent;
+    if (!regex.test(text)) return;
+    regex.lastIndex = 0; // reset
+    
+    const frag = document.createDocumentFragment();
+    let lastIdx = 0;
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      matchCount++;
+      // 前面的普通文本
+      if (match.index > lastIdx) {
+        frag.appendChild(document.createTextNode(text.slice(lastIdx, match.index)));
+      }
+      // 高亮的匹配文本
+      const span = document.createElement('span');
+      span.className = 'search-match-highlight';
+      span.textContent = match[0];
+      frag.appendChild(span);
+      lastIdx = regex.lastIndex;
+      if (match[0].length === 0) regex.lastIndex++;
+    }
+    // 剩余文本
+    if (lastIdx < text.length) {
+      frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+    }
+    
+    node.parentNode.replaceChild(frag, node);
+  });
+  
+  return matchCount;
+}
+
+// 清除所有搜索效果
+function clearSearchEffects() {
+  // 清除高亮 span
+  document.querySelectorAll('.search-match-highlight').forEach(span => {
+    const parent = span.parentNode;
+    parent.replaceChild(document.createTextNode(span.textContent), span);
+    parent.normalize();
+  });
+  
+  // 清除搜索 class
+  getSearchableBlocks().forEach(el => {
+    el.classList.remove('search-match', 'search-dimmed');
+  });
+  document.querySelectorAll('tr').forEach(tr => {
+    tr.classList.remove('search-match-row', 'search-dimmed-row');
+  });
+  
+  // 清除"无结果"占位
+  const noResult = document.querySelector('.search-no-results');
+  if (noResult) noResult.remove();
+}
+
+// 主搜索函数
+function doSearch(keyword) {
+  clearSearchEffects();
+  keyword = keyword.trim();
+  
+  // 更新清除按钮
+  searchClear.classList.toggle('visible', keyword.length > 0);
+  
+  if (!keyword) {
+    searchCount.classList.remove('visible');
+    searchCount.textContent = '';
+    return;
+  }
+  
+  const blocks = Array.from(getSearchableBlocks());
+  let totalMatches = 0;
+  const matchedBlocks = [];
+  
+  blocks.forEach(block => {
+    const text = block.textContent.toLowerCase();
+    if (text.includes(keyword.toLowerCase())) {
+      // 匹配块
+      block.classList.add('search-match');
+      block.classList.remove('search-dimmed');
+      
+      // 自动展开折叠体
+      const body = block.querySelector('.collapse-body');
+      if (body && !body.classList.contains('open')) {
+        body.classList.add('open');
+        const header = block.querySelector('.collapse-header');
+        if (header) header.classList.add('open');
+      }
+      
+      // 高亮匹配文本
+      const count = highlightText(block, keyword);
+      totalMatches += count;
+      matchedBlocks.push(block);
+    } else {
+      block.classList.add('search-dimmed');
+      block.classList.remove('search-match');
+    }
+  });
+  
+  // 表格行高亮
+  document.querySelectorAll('tbody tr').forEach(tr => {
+    const parentCard = tr.closest('.card, .policy-card, .talk-card');
+    if (parentCard && parentCard.classList.contains('search-match')) {
+      if (tr.textContent.toLowerCase().includes(keyword.toLowerCase())) {
+        tr.classList.add('search-match-row');
+        highlightText(tr, keyword);
+        totalMatches++;
+      }
+    }
+  });
+  
+  // 更新搜索结果计数
+  if (matchedBlocks.length > 0 && totalMatches > 0) {
+    searchCount.textContent = matchedBlocks.length + '个模块匹配';
+    searchCount.classList.add('visible');
+    
+    // 移除之前的"无结果"
+    const noResult = document.querySelector('.search-no-results');
+    if (noResult) noResult.remove();
+  } else {
+    searchCount.classList.remove('visible');
+    searchCount.textContent = '';
+    
+    // 显示"无结果"
+    const existing = document.querySelector('.search-no-results');
+    if (!existing) {
+      const noResult = document.createElement('div');
+      noResult.className = 'search-no-results';
+      noResult.innerHTML = '<p>&#128269; 未找到与 <strong>' + escapeHtml(keyword) + '</strong> 相关的内容</p><p style="font-size:12px;margin-top:8px;">试试搜索"CSP""海曙""特长生""AI"等关键词</p>';
+      const mainContent = document.querySelector('.main-content');
+      mainContent.appendChild(noResult);
+    }
+  }
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// 搜索输入事件 - 防抖
+let searchTimer;
+searchInput.addEventListener('input', function() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => doSearch(this.value), 200);
+});
+
+// Enter 键：滚动到第一个匹配项
+searchInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const firstMatch = document.querySelector('.search-match');
+    if (firstMatch) {
+      firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      firstMatch.style.transition = 'none';
+      firstMatch.style.boxShadow = '0 0 0 2px rgba(240,165,0,0.6), 0 8px 32px rgba(240,165,0,0.25)';
+      setTimeout(() => {
+        firstMatch.style.transition = '';
+        firstMatch.style.boxShadow = '';
+      }, 1500);
+    }
+  }
+  // Escape 键清除搜索
+  if (e.key === 'Escape') {
+    searchInput.value = '';
+    doSearch('');
+    searchInput.blur();
+  }
+});
+
+// 清除按钮
+searchClear.addEventListener('click', function() {
+  searchInput.value = '';
+  doSearch('');
+  searchInput.focus();
+});
+</script>
+
+</body>
+</html>

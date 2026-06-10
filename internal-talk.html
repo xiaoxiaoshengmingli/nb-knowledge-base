@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【内部机密】顾问话术速查 · 小码王</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #1a2d5a;
+  --primary-light: #2a4a8a;
+  --accent: #d4a843;
+  --accent-light: #f0d078;
+  --bg: #f5f6fa;
+  --card: #ffffff;
+  --text: #1a1a2e;
+  --text-light: #555;
+  --border: #e0e3eb;
+  --success: #27ae60;
+  --warning: #e67e22;
+  --danger: #e74c3c;
+  --info: #2980b9;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --radius: 8px;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+a { color: var(--primary-light); text-decoration: none; }
+a:hover { color: var(--accent); }
+
+/* Internal watermark background */
+body::before {
+  content: "内部机密\A 禁止外泄";
+  white-space: pre;
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(200, 0, 0, 0.04);
+  z-index: 0;
+  pointer-events: none;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.internal-banner {
+  background: linear-gradient(90deg, #b91c1c 0%, #dc2626 100%);
+  color: #fff;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(185,28,28,0.3);
+}
+.internal-banner::before { content: "⚠️ "; }
+.internal-banner::after { content: " ⚠️"; }
+
+.container { max-width: 900px; margin: 0 auto; padding: 30px 20px; position: relative; z-index: 1; }
+
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border);
+}
+.header h1 { font-size: 20px; font-weight: 800; color: var(--primary); }
+.header .back-link {
+  font-size: 13px; background: var(--primary); color: #fff;
+  padding: 6px 16px; border-radius: 16px; font-weight: 600;
+}
+.header .back-link:hover { background: var(--primary-light); color: #fff; }
+
+.card {
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 22px 26px; margin-bottom: 18px; border: 1px solid var(--border);
+}
+.card-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.card-title .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+.talk-card {
+  background: linear-gradient(135deg, #f8f9fc 0%, #f0f4ff 100%);
+  border-radius: var(--radius); padding: 16px 20px;
+  margin-bottom: 12px; border: 1px solid #e0e6f5;
+}
+.talk-card .talk-q { font-size: 13px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+.talk-card .talk-q::before { content: "👨‍💼 家长："; }
+.talk-card .talk-a { font-size: 13px; color: var(--text); line-height: 1.7; }
+.talk-card .talk-a::before { content: "💬 顾问："; }
+.talk-card .talk-source { font-size: 11px; color: var(--text-light); margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--border); }
+
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-green { background: #e8f8f0; color: #1e7a48; }
+.badge-blue { background: #e8f0fe; color: #1a4fa0; }
+.badge-gold { background: #fdf6e3; color: #9a6d00; }
+.badge-red { background: #fde8e8; color: #b91c1c; }
+.badge-gray { background: #f0f0f0; color: #555; }
+
+.table-wrap { overflow-x: auto; margin-top: 10px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  background: var(--primary); color: #fff; padding: 10px 12px;
+  text-align: left; font-weight: 600; white-space: nowrap; font-size: 12.5px;
+}
+tbody td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tbody tr:hover { background: #f8f9fc; }
+tbody tr:last-child td { border-bottom: none; }
+
+.section-title {
+  font-size: 16px; font-weight: 700; color: var(--primary);
+  margin: 30px 0 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+
+.tip-box {
+  background: linear-gradient(135deg, #f0f4ff 0%, #f8f9fc 100%);
+  border-radius: var(--radius); padding: 16px 20px;
+  margin-bottom: 12px; border: 1px solid #e0e6f5;
+}
+.tip-box ul { font-size: 13px; line-height: 2; padding-left: 18px; }
+
+.page-footer { text-align: center; padding: 24px; font-size: 11.5px; color: var(--text-light); border-top: 1px solid var(--border); margin-top: 20px; }
+
+@media (max-width: 600px) {
+  .container { padding: 18px 14px; }
+  .header { flex-direction: column; gap: 10px; align-items: flex-start; }
+  body::before { font-size: 50px; }
+}
+</style>
+</head>
+<body>
+
+<div class="internal-banner">内部机密 · 仅限小码王内部顾问使用 · 禁止向客户展示</div>
+
+<div class="container">
+  <div class="header">
+    <h1>💬 顾问话术速查卡</h1>
+    <a href="index.html" class="back-link">← 返回资料库</a>
+  </div>
+
+  <p style="font-size:13px;color:var(--text-light);margin-bottom:20px;">
+    以下话术供顾问在<strong>电话邀约</strong>或<strong>面访</strong>时参考，根据实际场景灵活调整。<br>
+    所有话术均有政策或数据依据，可放心使用。与客户沟通时，请<strong>用自己的语言转述</strong>，不要照本宣科。
+  </p>
+
+  <div class="section-title">📌 高频家长问题应答</div>
+
+  <!-- Q1 -->
+  <div class="talk-card" id="q1">
+    <div class="talk-q">"学编程有什么用？学校不是有信息科技课吗？"</div>
+    <div class="talk-a">
+      学校的信息科技课是普及课程，每周1-2课时，主要教基础操作。而我们教的Scratch/Python/C++是<strong>系统性编程思维训练</strong>，两者就像"体育课"和"专业体育训练"的区别。
+      <br><br>
+      <strong>政策依据：</strong>国务院《新一代人工智能发展规划》（国发〔2017〕35号）明确要求"在中小学阶段设置人工智能相关课程，逐步推广编程教育"。浙江/宁波已将编程纳入课程体系，未来中考、特长生都会参考。
+    </div>
+    <div class="talk-source">依据：资料库第一章 · 国务院2017年35号文</div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="talk-card" id="q2">
+    <div class="talk-q">"孩子还小（1-2年级），等大了再学编程吧？"</div>
+    <div class="talk-a">
+      编程思维的培养有<strong>黄金期</strong>，就是小学1-4年级。这个阶段孩子的逻辑思维正在形成，用Scratch图形化编程启蒙，不需要打字，像搭积木一样写程序，孩子容易上手，也不会有畏难情绪。
+      <br><br>
+      等到了4-5年级再开始，其他同学已经考了CSP-J入门组了，孩子会有挫败感。我们很多<strong>1年级开始学</strong>的孩子，到4年级已经可以参加白名单赛事了。
+    </div>
+    <div class="talk-source">依据：教育规律 + 历年学员数据</div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="talk-card" id="q3">
+    <div class="talk-q">"蓝桥杯/ NOC这些比赛还有用吗？我看网上都在说。"</div>
+    <div class="talk-a">
+      <strong>这两个比赛已经被移出教育部白名单了（2025-2028学年）。</strong>
+      <br><br>
+      2025年教育部更新了白名单，NOC（全国中小学信息技术创新与实践大赛）和蓝桥杯都因"过度商业化"被移除了。如果家长提到这两个比赛，您可以告诉家长：
+      <br><br>
+      "这两个比赛已经不在教育部最新白名单里了，含金量不如以前。我们现在推荐孩子参加的是<strong>信息学奥赛（CSP-J/S）</strong>和<strong>全国青少年人工智能创新挑战赛</strong>，这两个是目前白名单里含金量最高的编程赛事。"
+    </div>
+    <div class="talk-source">依据：资料库第二章 · 已移出白名单赛事提醒</div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="talk-card" id="q4">
+    <div class="talk-q">"学编程对升学有帮助吗？我们不考虑走竞赛路线。"</div>
+    <div class="talk-a">
+      即使不走竞赛路线，编程特长也非常有价值：
+      <br><br>
+      <strong>1. 科技特长生：</strong>2026年宁波有<strong>11所高中招收科技特长生，共206人</strong>，其中信息学（C++）和人工智能方向最受认可，CSP证书可以直接用作报名资质。
+      <br><br>
+      <strong>2. 中考加分/优先录取：</strong>部分学校在自主招生时，有编程/科技创新奖项的考生会有加分或优先录取资格。
+      <br><br>
+      <strong>3. 未来高考强基计划：</strong>信息学奥赛（NOI）获奖者可以保送清华北大，这是所有奥赛里竞争相对较小的赛道。
+    </div>
+    <div class="talk-source">依据：资料库第三章 · 2026年宁波科技特长生数据</div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="talk-card" id="q5">
+    <div class="talk-q">"我们家对口XX初中，这个学校怎么样？升学率如何？"</div>
+    <div class="talk-a">
+      您可以<strong>马上查资料库第四章的对口目录</strong>，30秒找到家长所在小学的对口初中，以及该初中的"高中主要流向"。
+      <br><br>
+      比如说到"东恩中学"，您可以告诉家长："东恩中学每年有28个左右的重高强基名额，去向主要是宁波中学和效实中学。如果孩子能拿到编程特长生资质，中考时可以多一条升学通道。"
+      <br><br>
+      <strong>这一步非常关键：</strong>当其他机构的顾问还在说"我不知道"的时候，您已经能准确告诉家长对口学校和高中的情况了，家长对您的专业度会立刻认可。
+    </div>
+    <div class="talk-source">依据：资料库第四章 · 小升初对口目录</div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="talk-card" id="q6">
+    <div class="talk-q">"科技特长生具体要什么条件？我们家孩子能报吗？"</div>
+    <div class="talk-a">
+      根据不同学校的要求，我帮您梳理一下（也可以直接翻资料库第三章的<strong>证书含金量梯队</strong>）：
+      <br><br>
+      <strong style="color:var(--primary);">T0（最顶尖）：</strong>CSP-S一等奖 —— 可以免机试，直接获得效实中学、鄞州中学等顶尖高中的科技特长生报考资格。
+      <br><br>
+      <strong style="color:var(--primary);">T1：</strong>CSP-J/S二等奖+ / NOIP / GESP八级≥80分 —— 可以报考效实中学（大数据技术方向）、鄞州中学（信息学方向）。
+      <br><br>
+      <strong style="color:var(--primary);">T2：</strong>白名单赛事全国二等奖+ / 市级一等奖 —— 可以报考宁波科创中学、宁波科学中学、惠贞书院。
+      <br><br>
+      <strong style="color:var(--primary);">T3：</strong>区县级科技类比赛三等奖+ —— 可以报考鄞州中学（人工智能方向）、惠贞书院（人工智能方向）。
+      <br><br>
+      <strong>您家孩子现在X年级，如果从现在开始学，预计到X年级时可以拿到T2-T1级别的证书，完全来得及！</strong>
+    </div>
+    <div class="talk-source">依据：资料库第三章 · 证书含金量梯队</div>
+  </div>
+
+  <!-- ======== 第一章内部辅助：政策文件活用指南 ======== -->
+  <div class="section-title">📋 第一章辅助：政策文件活用指南</div>
+  <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">
+    以下为每份政策文件的<strong>关键引用</strong>和<strong>适配场景</strong>，用于在电话/面访中自然引用，增强专业信赖感。
+  </p>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>五大政策文件 · 顾问引用于何时</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>政策文件</th>
+            <th>一句话引用核心</th>
+            <th>适用家长场景</th>
+            <th>火力等级</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>国务院 AI规划（2017）</strong></td>
+            <td>"国务院在2017年就发文要求中小学推广编程教育"</td>
+            <td>家长质疑"学编程有什么用"时；开场建立政策权威</td>
+            <td><span class="badge badge-red">必用</span></td>
+          </tr>
+          <tr>
+            <td><strong>教育部 综合实践指导纲要</strong></td>
+            <td>"编程已经写进教育部的课程要求里了"</td>
+            <td>对比校内信息科技课时；强调编程是课程体系的一部分</td>
+            <td><span class="badge badge-gold">高频</span></td>
+          </tr>
+          <tr>
+            <td><strong>教育部 AI教育通知（2024）</strong></td>
+            <td>"2030年前全国中小学都要普及AI教育"</td>
+            <td>家长犹豫"是不是太早了"；强调国家时间表</td>
+            <td><span class="badge badge-gold">高频</span></td>
+          </tr>
+          <tr>
+            <td><strong>五部门 AI+教育行动计划（2026）</strong></td>
+            <td>"今年4月五部门联合发文，AI纳入地方课程体系"</td>
+            <td>最新政策引用，体现信息获取能力强；适合对政策敏感的家长</td>
+            <td><span class="badge badge-blue">按需</span></td>
+          </tr>
+          <tr>
+            <td><strong>浙江省 AI+教育方案（2025）</strong></td>
+            <td>"浙江省已经定了100所AI教育试点校"</td>
+            <td>家长觉得政策离宁波太远；用省级落地政策拉近距离</td>
+            <td><span class="badge badge-blue">按需</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--accent);">
+    <div class="card-title"><span class="dot" style="background:var(--accent);"></span>顾问应答要点 — 政策场景</div>
+    <ul style="font-size:13px;line-height:2.2;padding-left:18px;">
+      <li><strong>不要背文号：</strong>家长不需要知道「国发〔2017〕35号」，说"国务院2017年的文件"就够了。</li>
+      <li><strong>政策+时间+具体内容：</strong>格式是「国家在XX年就发文/定了XX」。三个要素缺一不可，显得你有备而来。</li>
+      <li><strong>二选一原则：</strong>每次沟通最多引用2个政策，不要堆砌。选最贴合家长问题的那个。</li>
+      <li><strong>递进使用：</strong>开场用国务院（最高权威），深入沟通用浙江省（落地政策），最后用五部门（最新动态）。</li>
+    </ul>
+  </div>
+
+  <!-- ======== 第二章内部辅助：赛事推荐策略手册 ======== -->
+  <div class="section-title">🏆 第二章辅助：赛事推荐策略手册</div>
+  <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">
+    根据学生年级和学习进度，精准推荐赛事。以下按<strong>年级段 × 学习方向</strong>交叉匹配。
+  </p>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>顾问赛事推荐决策表</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>学生情况</th>
+            <th>首选推荐赛事</th>
+            <th>备选</th>
+            <th>跟家长怎么说</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1-2年级 零基础</td>
+            <td>软件编程等级考试（Scratch一级）</td>
+            <td>—</td>
+            <td>"从零开始，半年左右就能拿到第一张证书，给孩子建立信心。"</td>
+          </tr>
+          <tr>
+            <td>3-4年级 有Scratch基础</td>
+            <td>AI创新挑战赛（Scratch赛项）</td>
+            <td>等级考试Python一级</td>
+            <td>"这个阶段可以开始参加比赛了，Scratch方向全国认可度高。"</td>
+          </tr>
+          <tr>
+            <td>4-5年级 Python入门</td>
+            <td>AI创新挑战赛 / AI大赛（Python赛项）</td>
+            <td>科学探究建模大赛</td>
+            <td>"Python是AI时代的第一语言，这两个白名单比赛含金量很高。"</td>
+          </tr>
+          <tr>
+            <td>5-6年级 C++入门</td>
+            <td>CSP-J（信息学奥赛入门组）</td>
+            <td>等级考试C++级</td>
+            <td>"CSP-J是所有编程比赛里含金量最高的，能拿奖对升学帮助很大。"</td>
+          </tr>
+          <tr>
+            <td>5-6年级 零基础</td>
+            <td>先走Python路径</td>
+            <td>—</td>
+            <td>"如果现在开始学C++冲CSP时间很紧，建议先Python，一年后看情况转C++。"</td>
+          </tr>
+          <tr>
+            <td>7-9年级 有C++基础</td>
+            <td>CSP-S / NOIP</td>
+            <td>AI大赛Python赛项</td>
+            <td>"这个阶段目标是拿省级以上奖项，可以直接对标科技特长生报考条件。"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--danger);">
+    <div class="card-title"><span class="dot" style="background:var(--danger);"></span>顾问应答要点 — 处理「被移出白名单」的赛事问题</div>
+    <ul style="font-size:13px;line-height:2.2;padding-left:18px;">
+      <li><strong>家长提到NOC/蓝桥杯时：</strong>态度要客观中立，不要贬低。"这两个比赛2025年被教育部移出白名单了，主要是因为商业化倾向。现在参加的话对升学帮助有限。"</li>
+      <li><strong>不要说「没用了」：</strong>改用「含金量不如以前了，我们现在更建议孩子参加XX比赛」——给替代方案而非否定。</li>
+      <li><strong>被问为什么其他机构还在推荐：</strong>「有些机构可能信息没更新，我们是根据2025-2028学年教育部最新白名单做推荐的。」——暗示专业度，不攻击竞品。</li>
+      <li><strong>顺势推荐替代赛事：</strong>蓝桥杯→推荐等级考试；NOC→推荐AI创新挑战赛。把问题转化为推荐机会。</li>
+    </ul>
+  </div>
+
+  <div class="section-title">💡 顾问实战使用提示</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>电话邀约前必做</div>
+    <ul style="font-size:13px;line-height:2;padding-left:18px;">
+      <li><strong>提前查对口初中</strong>：在资料库第四章找到家长所在小学的对口初中和高中流向，通话时主动提及，建立专业第一印象。</li>
+      <li><strong>准备政策截图</strong>：第一章的政策文件可以直接截图发给家长，比口头说更有说服力。</li>
+      <li><strong>了解孩子年级</strong>：根据年级准备对应的课程+赛事推荐（第二章按年级推荐表），精准匹配。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>面访/体验课接待时</div>
+    <ul style="font-size:13px;line-height:2;padding-left:18px;">
+      <li><strong>不要照本宣科</strong>：话术是参考，不是剧本。根据家长反应灵活调整，自然表达。</li>
+      <li><strong>用数据说话</strong>：提到"11所高中招206名科技特长生"、"东恩中学28个强基名额"等具体数字，比泛泛而谈更有力。</li>
+      <li><strong>展示资料库</strong>：适当向家长展示资料库中的政策文件、对口目录页面，让他们感受到我们的专业度。</li>
+      <li><strong>避免过度承诺</strong>：不要承诺"学了就能考上特长生"，而是说"这是一条可选的升学通道，我们帮您评估可行性"。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>常见问题避坑</div>
+    <ul style="font-size:13px;line-height:2;padding-left:18px;">
+      <li><strong>不要贬低学校课程</strong>：信息科技课有它的价值，我们的定位是"补充和深化"，不是"替代"。</li>
+      <li><strong>不要贬低竞品</strong>：提到蓝桥杯/NOC被移出白名单时，语气要客观（"教育部更新了名单"），不要幸灾乐祸。</li>
+      <li><strong>不要制造焦虑</strong>：不要吓唬家长说"不学就落后了"，而是说"早开始可以让孩子更从容"。</li>
+      <li><strong>特长生路径要务实</strong>：4年级以上才开始学的孩子，走特长生通道时间较紧，要如实告知，但可以推荐以兴趣培养+竞赛体验为主。</li>
+    </ul>
+  </div>
+
+  <!-- ======== 第三章内部辅助：科技特长生匹配工具 ======== -->
+  <div class="section-title">🍙 第三章辅助：科技特长生匹配工具</div>
+  <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">
+    以下内容为顾问专用，用于根据学生当前水平<strong>快速匹配目标高中和证书路径</strong>。不要在家长面前逐行展示，用自然语言转述。
+  </p>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>学生水平 → 目标学校速配表</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>学生当前水平</th>
+            <th>目标学校</th>
+            <th>所需证书</th>
+            <th>预计时间</th>
+            <th>跟家长怎么说</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1-3年级 零基础</td>
+            <td>（暂不涉及）</td>
+            <td>先打基础</td>
+            <td>—</td>
+            <td>"现在开始刚好是黄金期，到4年级就可以参加比赛拿证书了。"</td>
+          </tr>
+          <tr>
+            <td>4-5年级 有Scratch/Python基础</td>
+            <td>宁波科创中学、宁波科学中学、惠贞书院</td>
+            <td>T2：白名单全国二等奖/市级一等奖</td>
+            <td>1-2年</td>
+            <td>"这几个学校对证书要求比较友好，孩子现在开始完全来得及。"</td>
+          </tr>
+          <tr>
+            <td>5-6年级 C++入门 目标明确</td>
+            <td>海曙中学、鄞州高级中学、姜山中学</td>
+            <td>T1：CSP-J二等奖+ / GESP五级+</td>
+            <td>1-2年</td>
+            <td>"目标定在海曙中学的话，关键是CSP-J拿一个二等奖以上。"</td>
+          </tr>
+          <tr>
+            <td>6-7年级 C++进阶 冲CSP-S</td>
+            <td>鄞州中学（信息学）、效实中学（大数据）</td>
+            <td>T0-T1：CSP-S二等奖+</td>
+            <td>1-2年</td>
+            <td>"这个阶段冲CSP-S，如果能拿二等奖，效实的大数据技术方向就可以报了。"</td>
+          </tr>
+          <tr>
+            <td>7-9年级 C++高手 已拿CSP-J奖</td>
+            <td>鄞州中学、效实中学、宁波中学</td>
+            <td>T0：CSP-S一等奖 / NOIP</td>
+            <td>冲刺阶段</td>
+            <td>"目标是中考前拿到CSP-S一等奖，可以直接免机试进鄞州中学。"</td>
+          </tr>
+          <tr>
+            <td>有科创作品/专利/论文</td>
+            <td>宁波中学（人工智能方向）</td>
+            <td>科创成果证明</td>
+            <td>—</td>
+            <td>"宁波中学的人工智能方向看重综合科创能力，不只看编程竞赛。"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--accent);">
+    <div class="card-title"><span class="dot" style="background:var(--accent);"></span>顾问应答要点 — 特长生路径沟通</div>
+    <ul style="font-size:13px;line-height:2.2;padding-left:18px;">
+      <li><strong>先问孩子年级：</strong>这是匹配的起点。4年级以下不要主动提特长生概念，会引起焦虑；4年级以上可以自然引入。</li>
+      <li><strong>4-5年级才开始学的孩子：</strong>诚实告知"走CSP路线时间会比较紧，但Python方向的白名单赛事完全来得及"——给希望但不过度承诺。</li>
+      <li><strong>不要直接说「你可以考鄞州中学」：</strong>改成「按照目前的节奏，你的孩子有希望以科技特长生的身份报考鄞州中学这类学校」——加"有希望""这类"等缓冲词。</li>
+      <li><strong>CSP-S一等奖是硬通货：</strong>在所有证书里含金量最高，能免机试直接获得鄞州中学、效实中学的报考资格。这是给有天赋孩子的最强路径。</li>
+      <li><strong>人工智能方向门槛较低：</strong>鄞州中学人工智能方向只要区县级三等奖，惠贞书院、效实中学的人工智能方向也是T2-T3门槛，适合大部分学生。</li>
+    </ul>
+  </div>
+
+  <!-- ======== 第四章内部辅助：小升初对口快速查询指南 ======== -->
+  <div class="section-title">🏫 第四章辅助：小升初对口快速查询指南</div>
+  <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">
+    根据家长提到的<strong>小学/区域</strong>，快速定位对口初中和高中流向，并给出专业建议。
+  </p>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>各区关键学校 · 顾问谈话要点</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>区域</th>
+            <th>当家长提到...</th>
+            <th>你可以说...</th>
+            <th>话术目的</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="3">海曙</td>
+            <td>镇明中心 / 广济中心 / 翰香 → 东恩中学</td>
+            <td>"东恩中学每年有28个左右的重高强基名额，去向主要是宁波中学和效实。加上编程特长，孩子可以在强基之外再多一条保障。"</td>
+            <td>数字建立专业度</td>
+          </tr>
+          <tr>
+            <td>海曙中心 / 孙文英（双学区试点）</td>
+            <td>"2026年海曙刚推行双学区，家长可以选海曙中学或孙文英小学对口。海曙中学是新建校，硬件和师资都很强。"</td>
+            <td>展现信息领先</td>
+          </tr>
+          <tr>
+            <td>海曙外国语学校</td>
+            <td>"海曙外国语从小学到高中都有，清林闲庭校区今年新开，九年一贯不用操心小升初。"</td>
+            <td>减轻升学焦虑</td>
+          </tr>
+          <tr>
+            <td rowspan="3">鄞州</td>
+            <td>宋诏桥 / 堇山 / 东湖 / 华泰 → 宋诏桥中学</td>
+            <td>"宋诏桥是鄞州升学率最高的初中之一，但对口小学已经红色预警。如果孩子加上编程特长，到时有更多选择。"</td>
+            <td>预警转机会</td>
+          </tr>
+          <tr>
+            <td>四眼碶 / 鄞州二小 → 曙光中学</td>
+            <td>"曙光中学是宁波最好的公办初中之一，对口鄞州中学和效实东部，孩子如果从小学编程，初中阶段更容易拿到竞赛成绩。"</td>
+            <td>远景规划</td>
+          </tr>
+          <tr>
+            <td>学士小学（多校分流）</td>
+            <td>"学士小学毕业生可以在鄞州实验中学和首南中学之间选，如果孩子有编程特长，可以根据哪个学校更重视科创来决定。"</td>
+            <td>体现深度了解</td>
+          </tr>
+          <tr>
+            <td rowspan="2">江北</td>
+            <td>惠贞书院（5+4学制）</td>
+            <td>"惠贞是宁波最热门的九年一贯制学校，5+4学制孩子提前一年进入初中课程。编程特长可以在初中阶段为强基计划加分。"</td>
+            <td>强调一贯制优势</td>
+          </tr>
+          <tr>
+            <td>青藤书院（民办摇号）</td>
+            <td>"青藤书院全市摇号中签率很低，如果摇不中也不用担心，对口公办加上编程特长，一样可以有很好的升学路径。"</td>
+            <td>备选方案安抚</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--accent);">
+    <div class="card-title"><span class="dot" style="background:var(--accent);"></span>顾问应答要点 — 学校查询与升学沟通</div>
+    <ul style="font-size:13px;line-height:2.2;padding-left:18px;">
+      <li><strong>电话邀约第一句提对口中初中：</strong>接通后先问"孩子在XX小学几年级？"，然后立即说"对口的是XX中学对吧？"——30秒建立"这个人懂行"的第一印象。</li>
+      <li><strong>数字比形容词有力量：</strong>"东恩中学强基28人"比"东恩中学升学挺好的"有力100倍。</li>
+      <li><strong>不要评价学校好坏：</strong>不说"A学校比B学校好"，改成说事实——"A学校去年有X个进了效实"。</li>
+      <li><strong>红色预警的正确用法：</strong>不是为了吓家长，而是说"这个学校竞争很激烈，所以有编程特长的话，孩子在升学时会多一个差异化优势"。</li>
+      <li><strong>三区平权：</strong>不管家长来自哪个区，用同样热情的态度介绍，不要有「海曙更好」「鄞州更好」的暗示。</li>
+    </ul>
+  </div>
+
+  <!-- ======== 电话邀约全流程SOP ======== -->
+  <div class="section-title">📞 电话邀约全流程SOP</div>
+  <p style="font-size:13px;color:var(--text-light);margin-bottom:16px;">
+    从<strong>开场到关单</strong>的完整电话邀约流程。每个环节有标准话术框架和备选方案。
+  </p>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>阶段一：开场破冰（30秒内建立信任）</div>
+    <div class="tip-box">
+      <ul>
+        <li><strong>标准开场：</strong>"XX家长您好，我是小码王编程的XX老师。看到您之前了解过我们的编程体验课，想问一下孩子在XX小学几年级了？"</li>
+        <li><strong>加分动作：</strong>听到小学名字后，立即回应："哦，XX小学，对口应该是XX中学对吧？"（翻第四章确认）</li>
+        <li><strong>避坑：</strong>不要一上来就说"我们有个体验课"，先建立对话，再引出课程。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>阶段二：挖掘需求（判断家长类型）</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>家长类型</th>
+            <th>识别信号</th>
+            <th>跟进策略</th>
+            <th>推荐方向</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-gold">升学导向</span></td>
+            <td>"学这个对升学有帮助吗？""能加分吗？"</td>
+            <td>重点讲科技特长生路径、CSP证书含金量、对口初中强基名额</td>
+            <td>C++ → CSP → 科技特长生</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-blue">兴趣导向</span></td>
+            <td>"孩子喜欢玩电脑""想让他试试"</td>
+            <td>强调Scratch趣味性、创造力培养、孩子在体验课上会做什么作品</td>
+            <td>Scratch启蒙 → 等级考试</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">焦虑型</span></td>
+            <td>"别人家都在学""我们是不是晚了"</td>
+            <td>用数据安抚（"您现在开始完全来得及"），给出具体时间线</td>
+            <td>根据年级匹配（用决策表）</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-gray">观望型</span></td>
+            <td>"再考虑考虑""回头跟孩子爸商量"</td>
+            <td>不强推，给资料（"我把政策文件发您看看"），约定下次跟进时间</td>
+            <td>先送资料，培养需求</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>阶段三：引出体验课（自然转化）</div>
+    <div class="tip-box">
+      <ul>
+        <li><strong>标准话术：</strong>"要不这样，您这周末带孩子来校区体验一下？我们老师会根据孩子的底子给一个测评，告诉您孩子适不适合学编程、适合从哪个方向开始。"</li>
+        <li><strong>关键心理锚点：</strong>不是"来上课"，而是"来做个测评"——降低家长的决策门槛。</li>
+        <li><strong>如果家长说忙：</strong>"没关系，我先加您微信，把这几份政策文件和赛事介绍发您看看。您方便的时候跟我说一声就行。"</li>
+        <li><strong>时间建议：</strong>优先约周六上午或周日下午——这两个时段家长通常有空，孩子精力也好。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot"></span>阶段四：处理异议（常见拒绝话术应对）</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>家长说...</th>
+            <th>顾问应答</th>
+            <th>心理策略</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>"太远了，不方便"</td>
+            <td>"没关系，我先帮您评估一下，如果孩子确实适合编程，我们再想办法。现在线上课也很方便。"</td>
+            <td>不争论距离，先建立价值认同</td>
+          </tr>
+          <tr>
+            <td>"太贵了"</td>
+            <td>"价格方面您可以先了解一下，关键是看适不适合孩子。体验课是免费的，先让孩子感受一下再说。"</td>
+            <td>不讨论价格，导向体验课价值</td>
+          </tr>
+          <tr>
+            <td>"已经在别的地方学了"</td>
+            <td>"挺好的，现在重视编程的家长越来越多了。我们这边有一个免费的编程水平测评，可以帮孩子看看目前学到什么程度了，知道下一步该怎么走。"</td>
+            <td>肯定现有选择 + 提供增值服务</td>
+          </tr>
+          <tr>
+            <td>"孩子没兴趣"</td>
+            <td>"可能孩子还没遇到真正好玩的编程课。我们的体验课不是上课，是让孩子在做游戏的过程中感受编程的乐趣，很多孩子来了就不想走。"</td>
+            <td>重新定义编程≠上课</td>
+          </tr>
+          <tr>
+            <td>"学校有信息课，够了"</td>
+            <td>"学校的信息课是普及性的，每周就一两节课。我们这边是系统的编程思维训练，区别就像体育课和专业的体育训练一样。"</td>
+            <td>类比法：普及 vs 专业</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,#fdf6e3,#fef9f0);border-left:4px solid var(--accent);">
+    <div class="card-title"><span class="dot"></span>💡 关单核心法则（四字诀）</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+      <div style="background:#fff;padding:14px;border-radius:6px;border:1px solid var(--border);">
+        <div style="font-weight:700;color:var(--primary);margin-bottom:4px;">❶ 查</div>
+        <div style="font-size:12.5px;color:var(--text-light);">听到小学名 → 10秒内翻到第四章 → 报出对口初中 → 碾压竞品顾问</div>
+      </div>
+      <div style="background:#fff;padding:14px;border-radius:6px;border:1px solid var(--border);">
+        <div style="font-weight:700;color:var(--primary);margin-bottom:4px;">❷ 引</div>
+        <div style="font-size:12.5px;color:var(--text-light);">自然引用1-2个政策 → 国务院/教育部 → 建立「这个顾问懂政策」印象</div>
+      </div>
+      <div style="background:#fff;padding:14px;border-radius:6px;border:1px solid var(--border);">
+        <div style="font-weight:700;color:var(--primary);margin-bottom:4px;">❸ 定</div>
+        <div style="font-size:12.5px;color:var(--text-light);">根据年级+基础 → 给明确方向（Scratch/Python/C++）→ 家长需要确定性</div>
+      </div>
+      <div style="background:#fff;padding:14px;border-radius:6px;border:1px solid var(--border);">
+        <div style="font-weight:700;color:var(--primary);margin-bottom:4px;">❹ 约</div>
+        <div style="font-size:12.5px;color:var(--text-light);">不是约「上课」是约「测评」→ 降低门槛 → 周六上午/周日下午优先</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">📊 证书含金量速查表</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>等级</th>
+          <th>所需证书/资质</th>
+          <th>可报考学校</th>
+          <th>建议开始年级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-gold">T0</span></td>
+          <td>CSP-S一等奖</td>
+          <td>效实中学、鄞州中学（免机试）</td>
+          <td>5-7年级</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">T1</span></td>
+          <td>CSP-J/S二等奖+ / NOIP / GESP八级≥80分</td>
+          <td>效实中学、鄞州中学、海曙中学</td>
+          <td>4-7年级</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-green">T2</span></td>
+          <td>白名单赛事全国二等奖+ / 市级一等奖</td>
+          <td>宁波科创中学、宁波科学中学、惠贞书院</td>
+          <td>3-8年级</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-gray">T3</span></td>
+          <td>区县级科技类比赛三等奖+</td>
+          <td>鄞州中学（人工智能方向）、惠贞书院</td>
+          <td>4-9年级</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="page-footer">
+    <p>【内部机密】顾问话术速查 · 小码王宁波校区 &nbsp;|&nbsp; 版本 v2026.06</p>
+    <p style="margin-top:4px; color:var(--danger);">⚠️ 本页面仅限内部顾问使用，严禁向客户展示或转发</p>
+  </div>
+</div>
+
+</body>
+</html>
