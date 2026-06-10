@@ -83,53 +83,6 @@ a:hover { color: #8b83ff; }
 /* District link */
 .nav-link.nav-district:hover { color: var(--color-district); }
 
-.nav-search {
-  margin-left: auto; position: relative; width: 260px;
-}
-.nav-search input {
-  width: 100%; padding: 7px 14px 7px 34px;
-  border: 1px solid var(--border-color); border-radius: 20px;
-  font-size: 13px; background: var(--bg-card); color: var(--text-primary);
-  outline: none; transition: border 0.2s;
-}
-.nav-search input::placeholder { color: var(--text-muted); }
-.nav-search input:focus { border-color: var(--color-policy); }
-.nav-search::before { content: "\1F50D"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 13px; }
-.nav-search .search-count {
-  position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
-  font-size: 11px; color: var(--color-policy); font-weight: 600;
-  pointer-events: none; white-space: nowrap; opacity: 0; transition: opacity 0.2s;
-}
-.nav-search .search-count.visible { opacity: 1; }
-.nav-search .search-clear {
-  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-  background: none; border: none; color: var(--text-muted); cursor: pointer;
-  font-size: 14px; padding: 2px 4px; display: none; line-height: 1;
-}
-.nav-search .search-clear.visible { display: block; }
-.nav-search .search-clear:hover { color: #ff6b6b; }
-
-/* Search highlight styles */
-.search-match-highlight {
-  background: rgba(240,165,0,0.35); border-radius: 2px; padding: 0 1px;
-}
-.card.search-match, .policy-card.search-match, .category-card.search-match {
-  border-color: var(--color-policy) !important;
-  box-shadow: 0 0 0 1px rgba(108,99,255,0.3), 0 4px 16px rgba(108,99,255,0.15) !important;
-}
-.card.search-dimmed, .policy-card.search-dimmed, .category-card.search-dimmed {
-  opacity: 0.35;
-  pointer-events: none;
-}
-tr.search-match-row { background: rgba(108,99,255,0.12) !important; }
-tr.search-dimmed-row { opacity: 0.3; }
-
-/* Search no results toast */
-.search-no-results {
-  text-align: center; padding: 48px 20px; color: var(--text-muted); font-size: 14px;
-}
-.search-no-results strong { color: var(--color-policy); }
-
 /* Mobile nav toggle */
 .nav-toggle { display: none; background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; padding: 4px; }
 
@@ -314,7 +267,6 @@ tbody tr:last-child td { border-bottom: none; }
 @media (max-width: 800px) {
   .nav-links { display: none; }
   .nav-toggle { display: block; }
-  .nav-search { width: 160px; }
   .nav-inner { gap: 10px; }
   .category-grid { grid-template-columns: 1fr; }
   .main-content { padding: 0 16px 32px; }
@@ -325,7 +277,6 @@ tbody tr:last-child td { border-bottom: none; }
 }
 
 @media (max-width: 480px) {
-  .nav-search { width: 120px; }
 }
 </style>
 </style>
@@ -343,11 +294,6 @@ tbody tr:last-child td { border-bottom: none; }
       <a href="#ch2" class="nav-link nav-competition">&#127942; 竞赛信息</a>
       <a href="#ch3" class="nav-link nav-admission">&#127891; 科技特长生</a>
       <a href="#ch4" class="nav-link nav-district">&#127979; 学区信息</a>
-    </div>
-    <div class="nav-search">
-      <input type="text" id="globalSearch" placeholder="搜索政策、学校、赛事...">
-      <span class="search-count" id="searchCount"></span>
-      <button class="search-clear" id="searchClear" title="清除搜索">&times;</button>
     </div>
   </div>
 </nav>
@@ -1219,210 +1165,6 @@ document.querySelectorAll('.collapse-header').forEach(header => {
   });
 });
 
-// ============ 全局搜索 ============
-const searchInput = document.getElementById('globalSearch');
-const searchCount = document.getElementById('searchCount');
-const searchClear = document.getElementById('searchClear');
-
-// 所有可搜索的内容块
-function getSearchableBlocks() {
-  return document.querySelectorAll('.policy-card, .card, .category-card, .talk-card, .comp-card');
-}
-
-// 高亮文本匹配
-function highlightText(containerEl, keyword) {
-  if (!keyword || keyword.length === 0) return 0;
-  
-  // 使用 TreeWalker 遍历所有文本节点
-  const walker = document.createTreeWalker(containerEl, NodeFilter.SHOW_TEXT, null, false);
-  const textNodes = [];
-  while (walker.nextNode()) {
-    const node = walker.currentNode;
-    // 跳过 script/style 和已经处理过的 span
-    if (node.parentElement.tagName === 'SCRIPT' || node.parentElement.tagName === 'STYLE') continue;
-    if (node.parentElement.classList.contains('search-match-highlight')) continue;
-    textNodes.push(node);
-  }
-  
-  let matchCount = 0;
-  const regex = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-  
-  textNodes.forEach(node => {
-    const text = node.textContent;
-    if (!regex.test(text)) return;
-    regex.lastIndex = 0; // reset
-    
-    const frag = document.createDocumentFragment();
-    let lastIdx = 0;
-    let match;
-    while ((match = regex.exec(text)) !== null) {
-      matchCount++;
-      // 前面的普通文本
-      if (match.index > lastIdx) {
-        frag.appendChild(document.createTextNode(text.slice(lastIdx, match.index)));
-      }
-      // 高亮的匹配文本
-      const span = document.createElement('span');
-      span.className = 'search-match-highlight';
-      span.textContent = match[0];
-      frag.appendChild(span);
-      lastIdx = regex.lastIndex;
-      if (match[0].length === 0) regex.lastIndex++;
-    }
-    // 剩余文本
-    if (lastIdx < text.length) {
-      frag.appendChild(document.createTextNode(text.slice(lastIdx)));
-    }
-    
-    node.parentNode.replaceChild(frag, node);
-  });
-  
-  return matchCount;
-}
-
-// 清除所有搜索效果
-function clearSearchEffects() {
-  // 清除高亮 span
-  document.querySelectorAll('.search-match-highlight').forEach(span => {
-    const parent = span.parentNode;
-    parent.replaceChild(document.createTextNode(span.textContent), span);
-    parent.normalize();
-  });
-  
-  // 清除搜索 class
-  getSearchableBlocks().forEach(el => {
-    el.classList.remove('search-match', 'search-dimmed');
-  });
-  document.querySelectorAll('tr').forEach(tr => {
-    tr.classList.remove('search-match-row', 'search-dimmed-row');
-  });
-  
-  // 清除"无结果"占位
-  const noResult = document.querySelector('.search-no-results');
-  if (noResult) noResult.remove();
-}
-
-// 主搜索函数
-function doSearch(keyword) {
-  clearSearchEffects();
-  keyword = keyword.trim();
-  
-  // 更新清除按钮
-  searchClear.classList.toggle('visible', keyword.length > 0);
-  
-  if (!keyword) {
-    searchCount.classList.remove('visible');
-    searchCount.textContent = '';
-    return;
-  }
-  
-  const blocks = Array.from(getSearchableBlocks());
-  let totalMatches = 0;
-  const matchedBlocks = [];
-  
-  blocks.forEach(block => {
-    const text = block.textContent.toLowerCase();
-    if (text.includes(keyword.toLowerCase())) {
-      // 匹配块
-      block.classList.add('search-match');
-      block.classList.remove('search-dimmed');
-      
-      // 自动展开折叠体
-      const body = block.querySelector('.collapse-body');
-      if (body && !body.classList.contains('open')) {
-        body.classList.add('open');
-        const header = block.querySelector('.collapse-header');
-        if (header) header.classList.add('open');
-      }
-      
-      // 高亮匹配文本
-      const count = highlightText(block, keyword);
-      totalMatches += count;
-      matchedBlocks.push(block);
-    } else {
-      block.classList.add('search-dimmed');
-      block.classList.remove('search-match');
-    }
-  });
-  
-  // 表格行高亮
-  document.querySelectorAll('tbody tr').forEach(tr => {
-    const parentCard = tr.closest('.card, .policy-card, .talk-card');
-    if (parentCard && parentCard.classList.contains('search-match')) {
-      if (tr.textContent.toLowerCase().includes(keyword.toLowerCase())) {
-        tr.classList.add('search-match-row');
-        highlightText(tr, keyword);
-        totalMatches++;
-      }
-    }
-  });
-  
-  // 更新搜索结果计数
-  if (matchedBlocks.length > 0 && totalMatches > 0) {
-    searchCount.textContent = matchedBlocks.length + '个模块匹配';
-    searchCount.classList.add('visible');
-    
-    // 移除之前的"无结果"
-    const noResult = document.querySelector('.search-no-results');
-    if (noResult) noResult.remove();
-  } else {
-    searchCount.classList.remove('visible');
-    searchCount.textContent = '';
-    
-    // 显示"无结果"
-    const existing = document.querySelector('.search-no-results');
-    if (!existing) {
-      const noResult = document.createElement('div');
-      noResult.className = 'search-no-results';
-      noResult.innerHTML = '<p>&#128269; 未找到与 <strong>' + escapeHtml(keyword) + '</strong> 相关的内容</p><p style="font-size:12px;margin-top:8px;">试试搜索"CSP""海曙""特长生""AI"等关键词</p>';
-      const mainContent = document.querySelector('.main-content');
-      mainContent.appendChild(noResult);
-    }
-  }
-}
-
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-// 搜索输入事件 - 防抖
-let searchTimer;
-searchInput.addEventListener('input', function() {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => doSearch(this.value), 200);
-});
-
-// Enter 键：滚动到第一个匹配项
-searchInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    const firstMatch = document.querySelector('.search-match');
-    if (firstMatch) {
-      firstMatch.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      firstMatch.style.transition = 'none';
-      firstMatch.style.boxShadow = '0 0 0 2px rgba(240,165,0,0.6), 0 8px 32px rgba(240,165,0,0.25)';
-      setTimeout(() => {
-        firstMatch.style.transition = '';
-        firstMatch.style.boxShadow = '';
-      }, 1500);
-    }
-  }
-  // Escape 键清除搜索
-  if (e.key === 'Escape') {
-    searchInput.value = '';
-    doSearch('');
-    searchInput.blur();
-  }
-});
-
-// 清除按钮
-searchClear.addEventListener('click', function() {
-  searchInput.value = '';
-  doSearch('');
-  searchInput.focus();
-});
 </script>
 
 </body>
